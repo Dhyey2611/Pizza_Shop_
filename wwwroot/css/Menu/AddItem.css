@@ -1,0 +1,101 @@
+.switch {
+  position: relative;
+  display: inline-block;
+  width: 44px;
+  height: 24px;
+}
+
+.switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: #ccc;
+  transition: 0.4s;
+  border-radius: 34px;
+}
+
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 18px;
+  width: 18px;
+  left: 3px;
+  bottom: 3px;
+  background-color: white;
+  transition: 0.4s;
+  border-radius: 50%;
+}
+
+input:checked + .slider {
+  background-color: #007bff;
+}
+
+input:checked + .slider:before {
+  transform: translateX(20px);
+}
+
+.modifier-select-btn {
+  width: 100%;
+  text-align: left;
+  border: none;
+  background: none;
+  padding: 8px 12px;
+  font-size: 16px;
+  color: #000;
+}
+.modifier-select-btn:hover {
+  background-color: #f0f0f0;
+  cursor: pointer;
+}
+.selected-modifier {
+  background-color: #007bff;
+  color: white;
+}
+
+.modifier-group-box {
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 15px;
+  background-color: #fdfdfd;
+}
+
+.modifier-group-title {
+  font-weight: 600;
+  font-size: 1rem;
+  color: #333;
+}
+
+.modifier-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.modifier-entry {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1px solid #ddd;
+  padding: 8px 12px;
+  border-radius: 6px;
+  background-color: #fffbe6;
+}
+
+.modifier-label {
+  font-size: 0.95rem;
+  color: #555;
+}
+
+.modifier-select {
+  width: 70px;
+  font-size: 0.85rem;
+}
+

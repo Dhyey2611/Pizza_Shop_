@@ -1,0 +1,493 @@
+using Microsoft.AspNetCore.Mvc;  // This is required for Controller and IActionResult
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Pizza_Shop_.ViewModels;
+using Pizza_Shop_.Models;
+using Pizza_Shop_.Services;
+using System.Text.RegularExpressions;
+namespace Pizza_Shop_.Controllers
+{
+    public class SuperAdminController : Controller
+    {
+        private readonly IMenuItemService _menuItemService;
+        private readonly ICategoryService _categoryService;
+        private readonly ITableSectionService _tableSectionService;
+        public SuperAdminController(IMenuItemService menuItemService, ICategoryService categoryService, ITableSectionService tableSectionService)
+        {
+            _menuItemService = menuItemService;
+            _categoryService = categoryService;
+            _tableSectionService = tableSectionService;
+        }
+
+        public IActionResult Dashboard()
+        {
+            var dashboardViewModel = new DashboardViewModel
+            {
+                TotalSales = 1630, // Example static value; Replace with dynamic value
+                TotalOrders = 1,   // Example static value; Replace with dynamic value
+                AvgOrderValue = 1630,  // Example static value; Replace with dynamic value
+                AvgWaitingTime = 6.96m, // Example static value; Replace with dynamic value
+                RevenueData = new List<decimal> { 100, 200, 300 },  // Example static values; Replace with dynamic data
+                CustomerGrowthData = new List<decimal> { 1, 2, 3 },  // Example static values; Replace with dynamic data
+                TopSellingItems = new List<SellingItem>
+        {
+            new SellingItem { Name = "Grilled burger", OrdersCount = 1 },
+            new SellingItem { Name = "Margherita", OrdersCount = 1 }
+        },  // Example static values; Replace with dynamic data
+                LeastSellingItems = new List<SellingItem>
+        {
+            new SellingItem { Name = "Grilled burger", OrdersCount = 1 },
+            new SellingItem { Name = "Margherita", OrdersCount = 1 }
+        },  // Example static values; Replace with dynamic data
+                WaitingListCount = 5,
+                NewCustomersCount = 0
+            };
+            return View(dashboardViewModel);
+        }
+        public IActionResult Menu(string searchTerm, int page = 1)
+        {
+            int pageSize = 5;
+            var items = _menuItemService.GetAllMenuItems();
+            var categories = _categoryService.GetAllCategories();
+            var modifierGroups = _menuItemService.GetAllModifierGroups();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                items = items.Where(m =>
+                    m.Name.ToLower().Contains(searchTerm) ||
+                    m.Category.ToLower().Contains(searchTerm)).ToList();
+            }
+            //Added Code
+            string? categoryIdStr = Request.Query["SelectedCategory"];
+            int categoryId = int.TryParse(categoryIdStr, out var parsedCategoryId) ? parsedCategoryId : 0; //
+            string? groupIdStr = Request.Query["SelectedGroup"];
+            int groupId = int.TryParse(groupIdStr, out var parsedId) ? parsedId : 0;
+            var modifiers = groupId > 0
+            ? _menuItemService.GetModifiersByGroupId(groupId).Select(m => new ModifierViewModel.ModifierDetailViewModel
+            {
+                Name = m.Name,
+                Price = m.Price
+            }).ToList()
+            : new List<ModifierViewModel.ModifierDetailViewModel>();
+            if (categoryId > 0)
+            {
+                items = items.Where(m => m.CategoryId == categoryId).ToList();
+            }
+            var paginatedItems = items.Skip((page - 1) * pageSize).Take(pageSize)
+            .Select(m => new MenuItemViewModel
+            {
+                MenuItemId = m.MenuItemId,
+                CategoryId = m.CategoryId,
+                Category = m.Category,
+                Name = m.Name,
+                ItemTypeIcon = m.ItemTypeIcon,
+                Rate = m.Rate,
+                Quantity = m.Quantity,
+                Available = m.Available
+            }).ToList();
+
+            var viewModel = new MenuPageViewModel
+            {
+                MenuItems = paginatedItems,
+                Categories = categories,
+                ModifierGroups = modifierGroups,
+                Modifiers = modifiers,
+                CurrentPage = page,
+                TotalItems = items.Count
+            };
+            return View(viewModel);
+        }
+
+        public IActionResult Modifiers(string searchTerm, int page = 1)
+        {
+            int pageSize = 5;
+            var modifierGroups = _menuItemService.GetAllModifierGroups();
+            var allModifiers = _menuItemService.GetAllModifierDetails();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                allModifiers = allModifiers.Where(m => m.Name.ToLower().Contains(searchTerm)).ToList();
+            }
+            var paginatedModifiers = allModifiers.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var viewModel = new MenuPageViewModel
+            {
+                Modifiers = paginatedModifiers,
+                ModifierGroups = modifierGroups,
+                CurrentPage = page,
+                TotalItems = allModifiers.Count
+            };
+            return View(viewModel);
+        }
+
+
+        [HttpPost]
+        public IActionResult AddCategory(AddCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _categoryService.AddCategory(model);
+            }
+            return RedirectToAction("Menu");
+        }
+        [HttpGet]
+        public IActionResult EditCategory(int id)
+        {
+            var category = _categoryService.GetAllCategories().FirstOrDefault(c => c.CategoryId == id);
+            if (category == null)
+            {
+                return NotFound();
+            }
+            var viewModel = new EditCategoryViewModel
+            {
+                Id = category.CategoryId,
+                Name = category.Name,
+                Description = category.Description
+            };
+            return Json(viewModel);
+        }
+        [HttpPost]
+        public IActionResult EditCategory(EditCategoryViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _categoryService.EditCategory(model);
+            }
+            return RedirectToAction("Menu");
+        }
+        [HttpPost]
+        public IActionResult DeleteCategory(int id)
+        {
+            _categoryService.DeleteCategory(id);
+            return RedirectToAction("Menu");
+        }
+        [HttpGet]
+        public IActionResult GetModifiersByGroup(int groupId)
+        {
+            var modifiers = _menuItemService.GetModifiersByGroupId(groupId);
+            return Json(modifiers);
+        }
+        [HttpPost]
+        public IActionResult AddMenuItem(AddMenuItemViewModel model)
+        {
+            Console.WriteLine("Model is valid: " + ModelState.IsValid);
+            foreach (var error in ModelState.Values.SelectMany(v => v.Errors))
+            {
+                Console.WriteLine("Error: " + error.ErrorMessage);
+            }
+            if (ModelState.IsValid)
+            {
+                var menuItem = new MenuItem
+                {
+                    Name = model.Name,
+                    Description = model.Description,
+                    Price = model.Price,
+                    CategoryId = model.CategoryId,
+                    ItemType = model.ItemType,
+                    Quantity = model.Quantity,
+                    Unit = model.Unit,
+                    IsAvailable = model.IsAvailable,
+                    TaxPercentage = model.TaxPercentage,
+                    DefaultTax = model.DefaultTax,
+                    ShortCode = model.ShortCode,
+                    Rate = model.Rate
+                };
+                _menuItemService.InsertMenuItem(menuItem);
+                var selectedModifierIdString = Request.Form["SelectedModifierId"].ToString();
+
+                // if (!string.IsNullOrWhiteSpace(selectedModifierIdString))
+                // {
+                //     int selectedModifierId = int.Parse(selectedModifierIdString);
+                //     _menuItemService.InsertMenuItemModifiers(menuItem.MenuItemId, selectedModifierId);
+                // }
+                // if (model.SelectedModifiers != null && model.SelectedModifiers.Any())
+                // {
+                //     _menuItemService.InsertMenuItemModifiers(menuItem.MenuItemId, model.SelectedModifiers);
+                // }
+            }
+            return RedirectToAction("Menu");
+        }
+        [HttpGet]
+        public IActionResult GetMenuItem(int id)
+        {
+            var menuItem = _menuItemService.GetMenuItemById(id);
+            if (menuItem == null)
+            {
+                return NotFound();
+            }
+            var result = new
+            {
+                MenuItemId = menuItem.MenuItemId,
+                Name = menuItem.Name,
+                CategoryId = menuItem.CategoryId,
+                ItemType = menuItem.ItemType,
+                Price = menuItem.Price,
+                Rate = menuItem.Rate,
+                Quantity = menuItem.Quantity,
+                Unit = menuItem.Unit,
+                IsAvailable = menuItem.IsAvailable,
+                TaxPercentage = menuItem.TaxPercentage,
+                DefaultTax = menuItem.DefaultTax,
+                ShortCode = menuItem.ShortCode,
+                Description = menuItem.Description
+            };
+            return Json(result);
+        }
+
+        [HttpPost]
+        public IActionResult EditMenuItem(AddMenuItemViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var existingItem = _menuItemService.GetMenuItemById(model.MenuItemId);
+                if (existingItem == null)
+                {
+                    return NotFound();
+                }
+                existingItem.Name = model.Name;
+                existingItem.CategoryId = model.CategoryId;
+                existingItem.ItemType = model.ItemType;
+                existingItem.Price = model.Price;
+                existingItem.Rate = model.Rate;
+                existingItem.Quantity = model.Quantity;
+                existingItem.Unit = model.Unit;
+                existingItem.IsAvailable = model.IsAvailable;
+                existingItem.TaxPercentage = model.TaxPercentage;
+                existingItem.DefaultTax = model.DefaultTax;
+                existingItem.ShortCode = model.ShortCode;
+                existingItem.Description = model.Description;
+                _menuItemService.UpdateMenuItem(existingItem);
+                return RedirectToAction("Menu");
+            }
+            return View(model);
+        }
+
+        [HttpPost]
+        public IActionResult DeleteItem(string itemIds)
+        {
+            if (!string.IsNullOrWhiteSpace(itemIds))
+            {
+                var ids = itemIds.Split(',').Select(int.Parse).ToList();
+                foreach (var id in ids)
+                {
+                    _menuItemService.SoftDeleteMenuItem(id);
+                }
+            }
+            return RedirectToAction("Menu");
+        }
+        [HttpPost]
+        public IActionResult AddModifierGroup(string name, string description, string selectedModifierIds)
+        {
+            if (string.IsNullOrWhiteSpace(name) || string.IsNullOrWhiteSpace(description))
+            {
+                return RedirectToAction("Modifiers");
+            }
+            List<int> modifierIds = new List<int>();
+            if (!string.IsNullOrWhiteSpace(selectedModifierIds))
+            {
+                modifierIds = selectedModifierIds.Split(',').Select(int.Parse).ToList();
+            }
+            _menuItemService.AddModifierGroup(name, description, modifierIds);
+            return RedirectToAction("Modifiers");
+        }
+        [HttpGet]
+        public IActionResult GetModifierSelectionPartial(int page = 1)
+        {
+            int pageSize = 5;
+            var allModifiers = _menuItemService.GetAllModifierDetails();
+            var paginatedModifiers = allModifiers
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+            var viewModel = new MenuPageViewModel
+            {
+                Modifiers = paginatedModifiers,
+                CurrentPage = page,
+                TotalItems = allModifiers.Count
+            };
+            return PartialView("_ModifierSelectionPartial", viewModel);
+        }
+        [HttpGet]
+        public IActionResult TablesAndSections(string searchTerm, int page = 1, int pageSize = 5)
+        {
+            var sections = _tableSectionService.GetAllSections();
+            // if (!string.IsNullOrWhiteSpace(searchTerm))
+            // {
+            //     tables = tables
+            //         .Where(s => s.Name != null && s.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+            //         .ToList();
+            // }
+            var tables = _tableSectionService.GetAllTables();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+                tables = tables
+                    .Where(s => s.Table_number != null && s.Table_number.Contains(searchTerm, StringComparison.OrdinalIgnoreCase))
+                    .ToList();
+            }
+            var totalItems = tables.Count();
+            var paginatedTables = tables
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+            var viewModel = new SectionPageViewModel
+            {
+                Sections = sections,
+                Tables = paginatedTables,
+                CurrentPage = page,
+                TotalItems = totalItems
+            };
+            return View("TablesAndSections", viewModel);
+        }
+        [HttpPost]
+        public IActionResult AddSection(AddSectionViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                _tableSectionService.AddSection(model);
+            }
+            return RedirectToAction("TablesandSections");
+        }
+
+        [HttpGet]
+        public IActionResult EditSection(int id)
+        {
+            var section = _tableSectionService.GetAllSections().FirstOrDefault(s => s.SectionId == id);
+            if (section == null)
+            {
+                return NotFound();
+            }
+            var viewModel = new EditSectionViewModel
+            {
+                Id = section.SectionId,
+                Name = section.Name,
+                Description = section.Description
+            };
+            return Json(viewModel);
+        }
+
+        // [HttpPost]
+        // public IActionResult EditSection(EditSectionViewModel model)
+        // {
+        //     if (ModelState.IsValid)
+        //     {
+        //         _tableSectionService.UpdateSection(model);
+        //     }
+        //     return RedirectToAction("TablesAndSections");
+        // }
+        [HttpPost]
+        public IActionResult EditSection(EditSectionViewModel model)
+        {
+            Console.WriteLine("ModelState.IsValid: " + ModelState.IsValid);
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    if (state != null)
+                    {
+                        foreach (var error in state.Errors)
+                        {
+                            Console.WriteLine($"Error in '{key}': {error.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine($"Editing Section - ID: {model.Id}, Name: {model.Name}, Description: {model.Description}");
+                _tableSectionService.UpdateSection(model);
+            }
+            return RedirectToAction("TablesAndSections");
+        }
+
+        [HttpPost]
+        public IActionResult DeleteSection(int sectionId)
+        {
+            _tableSectionService.SoftDeleteSection(sectionId);
+            return RedirectToAction("TablesandSections");
+        }
+        [HttpPost]
+        public IActionResult AddTable(TableViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var entry in ModelState)
+                {
+                    var key = entry.Key;
+                    var errors = entry.Value?.Errors;
+                    if (errors != null && errors.Count > 0)
+                    {
+                        foreach (var error in errors)
+                        {
+                            Console.WriteLine($"Model Error - Key: {key}, Error: {error.ErrorMessage}");
+                        }
+                    }
+                }
+                return BadRequest("Invalid data.");
+            }
+            _tableSectionService.AddTable(model);
+            return RedirectToAction("TablesandSections");
+        }
+        // [HttpPost]
+        // public IActionResult DeleteTable(int tableId)
+        // {
+        //     _tableSectionService.SoftDeleteTables(tableId);
+        //     return RedirectToAction("TablesandSections");
+        // }
+        [HttpPost]
+        public IActionResult DeleteTable(string tableIds)
+        {
+            if (!string.IsNullOrWhiteSpace(tableIds))
+            {
+                var ids = tableIds.Split(',').Where(id => int.TryParse(id, out _)).Select(int.Parse).ToList();
+                foreach (var id in ids)
+                {
+                    _tableSectionService.SoftDeleteTables(id);
+                }
+            }
+            return RedirectToAction("TablesandSections");
+        }
+        [HttpGet]
+        public IActionResult UpdateTable(int id)
+        {
+            var table = _tableSectionService.GetAllTables().FirstOrDefault(t => t.TableId == id);
+            if (table == null)
+            {
+                return NotFound();
+            }
+            var viewModel = new EditTableViewModel
+            {
+                Id = table.TableId,
+                Table_number = table.Table_number,
+                Capacity = table.Capacity,
+                Status = table.Status,
+                SectionId = table.SectionId
+            };
+            return Json(viewModel);
+        }
+        [HttpPost]
+        public IActionResult EditTable(EditTableViewModel model)
+        {
+            Console.WriteLine("ModelState.IsValid: " + ModelState.IsValid);
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    if (state != null)
+                    {
+                        foreach (var error in state.Errors)
+                        {
+                            Console.WriteLine($"Error in '{key}': {error.ErrorMessage}");
+                        }
+                    }
+                }
+            }
+            if (ModelState.IsValid)
+            {
+                Console.WriteLine($"Editing Section - ID: {model.Id}, Table_number: {model.Table_number}, Capacity: {model.Capacity}, Status: {model.Status}");
+                _tableSectionService.UpdateTable(model);
+            }
+            return RedirectToAction("TablesandSections");
+        }
+    }
+}

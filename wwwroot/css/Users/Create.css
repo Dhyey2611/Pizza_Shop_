@@ -1,0 +1,110 @@
+/* Dotted border for Browse Files box */
+/* .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding-top: 20px;
+} */
+
+.custom-wrapper {
+    margin-left: 0px; /* adjust to align with sidebar spacing */
+    width: calc(100% - 60px); /* takes almost full width under blue bar */
+    padding-top:10px;
+}
+
+/* Style for the card */
+.card {
+    border-radius: 10px;
+    padding: 20px;
+    width:2220px;
+}
+
+/* Center text in headings */
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+.mb-3 {
+    margin-bottom: 15px;
+}
+
+/* Adding space between the buttons */
+.d-flex {
+    display: flex;
+    justify-content: flex-start;
+}
+
+.ms-3 {
+    margin-left: 15px;
+}
+
+/* Style for button */
+button, a.btn {
+    font-size: 16px;
+    min-width: 50px;
+}
+
+.border-dotted-box {
+    border: 2px dotted #ccc;
+    padding: 10px;
+    margin-top: 10px;
+}
+
+/* Cloud icon styling */
+.cloud-icon {
+    font-size: 30px;
+    color: #007bff;
+}
+
+/* Icon for the eye in the password field */
+.input-group-text {
+    cursor: pointer;
+}
+
+.fas.fa-eye-slash, .fas.fa-eye {
+    font-size: 18px;
+    color: #080808;
+}
+
+/* Remove outline on input fields when focused */
+input:focus, select:focus, textarea:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Style for rows and columns */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.col-md-6 {
+    width: 48%;
+    padding: 10px;
+}
+
+.col-md-4 {
+    width: 30%;
+    padding: 10px;
+}
+
+/* Ensure labels are properly aligned */
+.form-label {
+    font-weight: bold;
+    color: #555;
+}
+
+/* Align the title */
+h2.text-primary {
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Styling the form control */
+input.form-control, select.form-control, textarea.form-control {
+    height: 40px;
+    font-size: 14px;
+}

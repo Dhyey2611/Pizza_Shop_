@@ -1,0 +1,104 @@
+@model Pizza_Shop_.ViewModels.MyProfileViewModel
+
+@{
+    ViewData["Title"] = "My Profile";
+}
+<head>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/Dashboard/MyProfile.css" />
+</head>
+<html>
+<body>
+<div class="admin-container-1">
+
+ 
+    <div class="main-container-1">
+        
+        <h1 class="profile-title">My Profile</h1>
+       
+        <div class="profile-header">
+            <div class="profile-info-container">
+                <img src="~/images/user_icon.png" alt="Profile Picture" class="profile-img">
+                <div class="profile-info">
+                    <h2>Admin Admin</h2>
+                    <span class="user-role">Admin</span>
+                </div>
+                <span class="profile-email">admin@xyzmail.com</span> 
+            </div>
+        </div>
+           
+            <form asp-action="UpdateProfile" method="post" class="profile-form">
+                @Html.AntiForgeryToken()
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label>First Name</label>
+                        <input type="text" class="form-control" asp-for="Name" required>
+                    </div>
+                    <div class="form-group">
+                        <label>User_Type</label>
+                        <input type="text" class="form-control" asp-for="UserType" disabled>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group">
+                        <label>Email_id</label>
+                        <input type="text" class="form-control" asp-for="EmailId" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label>Phone</label>
+                        <input type="text" class="form-control" asp-for="Phone" required>
+                    </div>
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group">
+                    <label>Country</label>
+                    <select id="countryDropdown" class="form-control" asp-for="Country">
+                    <option value="">Select Country</option>
+                    
+                    </select>
+                    <input type="hidden" name="country_id" id="hiddenCountryId" value="@Model.CountryId" />
+                    </div>
+
+                    <div class="form-group">
+                    <label>State</label>
+                    <select id="stateDropdown" class="form-control" asp-for="State">
+                    <option value="">Select State</option>
+                    
+                    </select>
+                    <input type="hidden" name="state_id" id="hiddenStateId" value="@Model.StateId" />
+                    </div>
+
+                    <div class="form-group">
+                    <label>City</label>
+                    <select id="cityDropdown" class="form-control" asp-for="City">
+                    <option value="">Select City</option>
+                    </select>
+                    <input type="hidden" name="city_id" id="hiddenCityId" value="@Model.CityId" />
+                    </div>
+
+                </div>
+                <div class="form-group-row">
+                    <div class="form-group" style="flex: 3;">
+                        <label>Address</label>
+                        <input type="text" class="form-control" asp-for="Address" required>
+                    </div>
+                    <div class="form-group" style="flex: 1;">
+                        <label>Zipcode</label>
+                        <input type="text" class="form-control" asp-for="ZipCode" required>
+                    </div>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="submit" class="btn btn-primary">Update</button>
+                    <button type="button" class="btn btn-secondary" onclick="window.history.back();">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<input type="hidden" id="selectedCountryId" value="@Model.CountryId"/>
+<input type="hidden" id="selectedStateId" value="@Model.StateId" />
+<input type="hidden" id="selectedCityId" value="@Model.CityId" />
+<script src="~/js/Account/myprofile.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+.error-404-body {
+    background-color: #e3f2fd;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    text-align: center;
+    padding-top: 80px;
+    margin: 0;
+}
+
+.error-container {
+    max-width: 600px;
+    margin: auto;
+}
+
+.logo {
+    width: 250px;
+    margin-bottom: 30px;
+}
+
+.error-code {
+    font-size: 100px;
+    font-weight: bold;
+    color: #1565c0;
+    margin: 0;
+}
+
+.error-message {
+    font-size: 32px;
+    color: #1565c0;
+    margin: 10px 0;
+}
+
+.error-description {
+    font-size: 18px;
+    color: #333;
+}

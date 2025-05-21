@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - Pizza_Shop_</title>
+
+    @if (ViewData["IsDashboard"] as bool? == true)
+    {
+        <link rel="stylesheet" href="~/css/Dashboard/dashboard.css">
+    }
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @* <link rel="stylesheet" href="~/css/_Layout.css" /> *@
+</head>
+<body>
+    <div class="d-flex">
+        <!-- Sidebar (left) -->
+        <div class="sidebar-container">
+            <partial name="_Sidebar" />
+        </div>
+
+        <!-- Right Section: Blue Navbar on Top + Content below -->
+        <div class="main-content-container flex-grow-1 d-flex flex-column">
+        <!-- Blue Navbar aligned with main content -->
+        <div class="top-bar-container">
+        <partial name="_BlueNavbar" />
+        </div>
+        <!-- Page Content -->
+        <div class="content-area p-3">
+        <main role="main" class="pb-3">
+            @RenderBody()
+        </main>
+        </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+
+    @if (ViewContext.RouteData.Values["Controller"]?.ToString() == "SuperAdmin" && ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard")
+    {
+        <script src="~/js/dashboard.js"></script>
+    }
+
+    @await RenderSectionAsync("Scripts", required: false)
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+</body>
+</html>

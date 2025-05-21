@@ -1,0 +1,94 @@
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Create User Email  | PizzaShop</title>
+    <link rel="stylesheet" href="~/css/Users/CreateEmail.css">s
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+    <div class="email-container">
+        <div class="create-email-bar">
+            Account Login Details
+        </div>
+
+        <!-- Email Top Section -->
+        <div class="email-top">
+            <div class="left">
+                <div class="profile-icon">T</div>
+                <div class="email-info">
+                    <span class="email-sender">test.dotnet@etatvasoft.com</span>
+                    <span class="email-to">To: You</span>
+                </div>
+            </div>
+            <div class="right">
+                <i class="fas fa-reply icon"></i> Reply
+                <i class="fas fa-reply-all icon"></i> Reply-All
+                <i class="fas fa-share icon"></i> Forward
+                <span class="divider">|</span>
+                <div class="square-box"></div>
+                <span class="divider">|</span>
+                <i class="fas fa-ellipsis-h icon"></i>
+            </div>
+        </div>
+
+        <div class="date-time">Fri 1/24/2025 11:53 AM</div>
+
+        <!-- Email Header (Logo inside blue banner) -->
+        <div class="email-header improved-header">
+            <img src="/images/pizzashop_logo.png" alt="PIZZASHOP" class="logo-img">
+        </div>
+
+        <!-- Email Body -->
+        <div class="email-body">
+            <p>Welcome to Pizza shop</p>
+            <p>Please find the details below for login into your account.</p>
+
+            <!-- Login Details Box -->
+            <div class="login-details-box improved-box">
+                <p class="login-title">Login Details:</p>
+                <p><strong>Username:</strong> @Model.Email</p>
+                <p><strong>Temporary Password:</strong> @Model.TemporaryPassword</p>
+            </div>
+
+            <p>If you encounter any issues or have any questions, please do not hesitate to contact our support team.</p>
+        </div>
+
+        <!-- Buttons -->
+        <div class="email-actions">
+            <button class="reply-btn">
+                <i class="fas fa-reply"></i> Reply
+            </button>
+            <button class="forward-btn">
+                <i class="fas fa-share"></i> Forward
+            </button>
+        </div>
+    </div>
+
+    <div class="countdown-timer-container">
+        <div class="countdown-timer">
+            Redirecting in <span id="countdown-timer">15</span> seconds...
+        </div>
+    </div>
+
+    <script>
+        let countdownTime = 15;
+        let countdownElement = document.getElementById('countdown-timer');
+
+        let countdownInterval = setInterval(() => {
+            countdownElement.textContent = countdownTime;
+            if (countdownTime === 0) {
+                clearInterval(countdownInterval);
+                window.location.href = "/User/Index";
+            } else {
+                countdownTime--;
+            }
+        }, 1000);
+    </script>
+</body>
+</html>

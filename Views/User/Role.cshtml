@@ -1,0 +1,33 @@
+@model Pizza_Shop_.ViewModels.RoleListViewModel
+
+@{
+    ViewData["Title"] = "Roles and Permissions";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="~/css/Users/Role.css" />
+
+<div class="roles-container">
+    <h2 class="section-title">Roles and Permissions</h2>
+    <div class="roles-card">
+        <table class="roles-table">
+            <thead>
+                <tr>
+                    <th>Role</th>
+                    <th class="text-end">Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var role in Model.Roles)
+                {
+                    <tr>
+                        <td>@role.Name</td>
+                        <td class="text-end">
+                            <a href="/User/Permissions?roleId=@role.Id"><i class="fas fa-pen edit-icon"></i></a>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>

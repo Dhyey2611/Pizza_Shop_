@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\buildMultiTargeting\Pizza_Shop_.NET_frontend.props" />
+</Project>

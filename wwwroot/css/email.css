@@ -1,0 +1,193 @@
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 40px 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.forgot-password-bar {
+    background-color: white;
+    text-align: left;
+    padding: 10px 20px;
+    font-size: 16 px;
+    font-weight: bold;
+    border-bottom: 1px solid rgb(198, 195, 195);
+    width: 100%;
+    display:flex;
+    align-items: centre;
+    justify-content: space-between;
+}
+
+.email-container {
+    width: 100%;
+    max-width: 700px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+}
+
+/* ✅ Top Section (Sender Info & Icons) */
+.email-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 20px;
+    border-bottom: 1px solid #ddd;
+    background-color: #ffffff; /* ✅ White background for sender info */
+}
+
+/* ✅ Left Side: Sender Info */
+.email-top .left {
+    display: flex;
+    align-items: center;
+}
+
+/* ✅ Profile Icon */
+.profile-icon {
+    width: 35px;
+    height: 35px;
+    background-color: #007BFF;
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    font-weight: bold;
+    margin-right: 10px;
+}
+
+/* ✅ Email Info */
+.email-info {
+    display: flex;
+    flex-direction: column;
+    font-size: 14px;
+}
+
+/* ✅ Right Side: Icons */
+.email-top .right {
+    display: flex;
+    align-items: center;
+    font-size: 14px;
+}
+
+.email-top .icon {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+/* ✅ Divider */
+.email-top .divider {
+    color: #ccc;
+    margin: 0 5px;
+}
+
+.square-box{
+    width:20px;
+    height:20px;
+    background:#ccc;
+    display:inline-block;
+    border-radius:4 px;
+    margin: 0 5px;
+}
+/* ✅ Date/Time Styling */
+.date-time {
+    font-size: 12px;
+    color: #777;
+    margin-left: 10px;
+    display:block;
+    margin:5px;
+    text-align: right;
+    padding: 20px;
+}
+
+/* ✅ Email Header (Blue Background) */
+.email-header {
+    background-color: #004a99; /* ✅ Matches the email's blue header */
+    text-align: center;
+    padding: 25px 20px;
+}
+
+.email-header img {
+    width: 150px;
+}
+
+/* ✅ Email Body */
+.email-body {
+    padding: 30px;
+    background-color: #f8f9fa; /* ✅ Matches email body color */
+    text-align: left;
+}
+
+.email-body p {
+    font-size: 16px;
+    color: #333;
+    line-height: 1.6;
+}
+
+.email-body a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: bold;
+    transition: color 0.2s ease-in-out;
+}
+
+.email-body a:hover {
+    text-decoration: underline;
+    color: #0056b3; /* ✅ Slightly darker blue on hover */
+}
+
+/* ✅ Important Note Styling */
+.important-note {
+    font-size: 14px;
+    color: #d9534f;
+    font-weight: bold;
+    padding-top: 10px;
+}
+
+/* ✅ Styles for Reply & Forward Buttons */
+.email-actions {
+    display: flex;
+    justify-content: flex-start; /* ✅ Aligns buttons to the left */
+    padding: 15px 20px;
+    border-top: 1px solid #ddd; /* ✅ Adds separator */
+    background-color: #f8f9fa; /* ✅ Matches email background */
+}
+
+.reply-btn,
+.forward-btn {
+    display: inline-block;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 15px;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 5px;
+    border-color: rgb(67, 65, 65);
+    cursor: pointer;
+}
+
+.reply-btn {
+    background-color: white;
+    color: purple;
+}
+
+.forward-btn {
+    background-color: white;
+    color: blue;
+}
+
+.reply-btn i,
+.forward-btn i {
+    font-size: 16px;
+}
+
+.reply-btn:hover,
+.forward-btn:hover {
+    opacity: 0.7;
+}

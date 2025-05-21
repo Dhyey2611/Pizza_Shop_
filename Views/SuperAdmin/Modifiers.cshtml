@@ -1,0 +1,211 @@
+@model Pizza_Shop_.ViewModels.MenuPageViewModel
+
+@{
+    ViewData["Title"] = "Menu";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="~/css/Menu/Menu.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" crossorigin="anonymous" />
+<div class="menu-wrapper">
+    <h2 class="fw-bold mb-3">Menu</h2>
+    <div class="menu-container p-3 shadow rounded bg-white">
+    <div class="menu-tabs-box bg-white shadow-sm rounded p-2 d-flex align-items-center gap-3 mb-3">
+        @{
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString();
+        }
+        <a asp-action="Menu" button class="tab @(currentAction == "Menu" ? "active" : "")"><i class="fas fa-list me-1"></i> Items</a>
+        <a asp-action="Modifiers" button class="tab @(currentAction == "Modifiers" ? "active" : "")"><i class="fas fa-puzzle-piece me-1"></i> Modifiers</a>
+    </div>
+
+    <div class="d-flex p-3 rounded shadow-sm bg-white" style="gap: 20px;">
+        <div class="category-sidebar">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+                <h5>Modifier Group</h5>
+                <button class="btn btn-sm btn-outline-primary" data-bs-toggle="modal" data-bs-target="#addModifierGroupModal">+</button>
+            </div>
+            <div class="category-scroll-wrapper">
+            <ul class="list-group category-scroll">
+            @foreach (var modifiersgroup in Model.ModifierGroups)
+            {
+            <li class="list-group-item category-item position-relative">
+            <span class="d-inline-block">
+            <i class="fas fa-circle me-2 small-dot"></i> @modifiersgroup.ModifierGroupName
+            </span>
+            <div class="popup-menu">
+            <a href="#" class="text-warning me-2 edit-category-btn">
+            <i class="fas fa-edit" data-bs-toggle="modal" data-bs-target="#EditModifierGroupModal"></i>
+            </a>
+            <a href="#" class="text-danger">
+            <i class="fas fa-trash" data-bs-toggle="modal" data-bs-target="#deleteModifierGroupModal"></i></a>
+            </div>
+            </li>
+            }
+             </ul>
+            </div>
+            </div>
+
+        <div class="items-table-wrapper ps-3">
+            <h5 class="fw-bold mb-3">Modifiers</h5>
+            <div class="menu-actions d-flex justify-content-end align-items-center gap-2 mb-3">
+            <div class="d-flex align-items-center gap-2" style="flex-grow: 1; max-width: 400px;">
+            <div class="position-relative w-100">
+            <form method="get" asp-action="Menu" class="w-100">
+            <div class="position-relative w-100">
+            <input type="text" name="searchTerm" class="form-control ps-4" placeholder="Search" value="@Context.Request.Query["searchTerm"]" />
+            <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+            </div>
+            </form>
+            <i class="fas fa-search position-absolute top-50 start-0 translate-middle-y ms-2 text-muted"></i>
+            </div>
+            <button class="btn btn-outline-secondary">
+            <i class="fas fa-trash"></i>
+            </button>
+            </div>
+            <a class="btn btn-primary ms-3">+ New Modifier</a>
+        </div>
+
+            <table class="table table-hover">
+                <thead>
+                    <tr>
+                        <th><input type="checkbox" /></th>
+                        <th>Name</th>
+                        <th>Unit</th>
+                        <th>Rate</th>
+                        <th>Quantity</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var modifier in Model.Modifiers)
+                    {
+                        <tr>
+                            <td><input type="checkbox" /></td>
+                            <td>@modifier.Name</td>
+                            <td>@modifier.Unit</td>
+                            <td>@modifier.Price</td>
+                            <td>@modifier.Quantity</td>
+                            <td>
+                                <a class="text-warning"><i class="fas fa-edit"></i></a>
+                                <a class="text-danger ms-2"><i class="fas fa-trash"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+
+            <div class="pagination-controls d-flex justify-content-end align-items-center mt-3">
+            @{
+            int currentPage = Model.CurrentPage;
+            int totalItems = Model.TotalItems;
+            int totalPages = (int)Math.Ceiling((double)totalItems / 5);
+            }
+            <div class="items-per-page me-3">
+            <label>Items Per page:</label>
+            <select class="form-select">
+                <option selected>5</option>
+            </select>
+            </div>
+            <span class="ms-3">Showing @((currentPage - 1) * 5 + 1)-@(Math.Min(currentPage * 5, totalItems)) of @totalItems</span>
+            <span class="ms-3">Page @currentPage of @totalPages</span>
+            @if (currentPage > 1)
+            {
+            <a class="btn btn-outline-secondary ms-2" asp-action="Modifiers" asp-route-page="@(currentPage - 1)" asp-route-searchTerm="@Context.Request.Query["searchTerm"]">&lt;</a>
+            }
+            @if (currentPage < totalPages)
+            {
+            <a class="btn btn-outline-secondary" asp-action="Modifiers" asp-route-page="@(currentPage + 1)" asp-route-searchTerm="@Context.Request.Query["searchTerm"]">&gt;</a>
+            }
+            </div>
+        </div>
+    </div>
+    </div>
+@*AddModifierGroup*@
+<div class="modal fade" id="addModifierGroupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="AddModifierGroup">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add Modifier Group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label for="ModifierGroupName">Name*</label>
+                        <input type="text" name="ModifierGroupName" class="form-control" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Description">Description</label>
+                        <textarea name="Description" class="form-control"></textarea>
+                    </div>
+                    <a href="#" id="addExistingModifiersLink" class="small" data-bs-toggle="modal" data-bs-target="#selectModifiersModal">+ Add Existing Modifiers</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*EditModifierGroup*@
+<div class="modal fade" id="EditModifierGroupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <form method="post" asp-action="AddModifierGroup">
+                <div class="modal-header">
+                    <h5 class="modal-title">Update Modifier Group</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="form-group mb-3">
+                        <label for="ModifierGroupName">Name*</label>
+                        <input type="text" name="ModifierGroupName" class="form-control" required />
+                    </div>
+                    <div class="form-group mb-3">
+                        <label for="Description">Description</label>
+                        <textarea name="Description" class="form-control"></textarea>
+                    </div>
+                    <a href=# id="addExistingModifiersLink" class="small">+ Add Existing Modifiers</a>
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-primary">Save</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*DeleteModifierGroup*@
+<div class="modal fade" id="deleteModifierGroupModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content text-center">
+            <form method="post" asp-action="DeleteModifierGroup">
+                <input type="hidden" name="ModifierGroupId" id="deleteModifierGroupId" />
+                <div class="modal-header border-0 pb-0">
+                    <button type="button" class="btn-close ms-auto" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <i class="fas fa-exclamation-triangle fa-3x text-warning mb-3"></i>
+                    <h5 class="mb-3 fw-bold">Delete Confirmation</h5>
+                    <p>Are you sure you want to delete this modifier group?</p>
+                    <div class="d-flex justify-content-center gap-3 mt-4">
+                        <button type="submit" class="btn btn-primary px-4">YES</button>
+                        <button type="button" class="btn btn-secondary px-4" data-bs-dismiss="modal">NO</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+@*Add Existing Modifer pop-up*@
+<div class="modal fade" id="selectModifiersModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div id="modifierSelectionContainer">
+            <partial name="_ModifierSelectionPartial" />
+        </div>
+    </div>
+</div>
+</div>
+<script src="~/js/Menu/Modifiers/Modifier_pop_up.js"></script>
+<script src="~/js/Menu/Modifiers/AddModifierGroupToMainAddPopup.js"></script>
+<script src="~/js/Menu/Modifiers/GetModifierDetailsTopopup.js"></script>

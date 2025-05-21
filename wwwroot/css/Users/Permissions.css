@@ -1,0 +1,178 @@
+.permissions-container {
+    width: 90%;
+    margin: 30px auto;
+    background: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+    font-family: 'Segoe UI', sans-serif;
+}
+
+.permissions-container h2 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #007bff;
+}
+
+.role-name {
+    margin-bottom: 20px;
+}
+
+.role-name label {
+    font-weight: 600;
+    margin-right: 10px;
+}
+
+.role-name input {
+    width: 300px;
+    padding: 8px 12px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1;
+    font-size: 14px;
+}
+
+.permissions-table-wrapper {
+    overflow-x: auto;
+}
+
+.permissions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+    font-size: 14px;
+}
+
+.permissions-table th,
+.permissions-table td {
+    padding: 14px;
+    /* text-align: center; */
+    border-bottom: 1px solid #eee;
+}
+
+.permissions-table th {
+    background-color: #f9f9f9;
+    font-weight: 600;
+    color: #333;
+}
+
+.permissions-table td:first-child,
+.permissions-table th:first-child {
+    width: 40px;
+}
+
+.permissions-table td:nth-child(2) {
+    text-align: left;
+    font-weight: 500;
+}
+
+/* Toggle switch styling */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 42px;
+    height: 22px;
+}
+
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.slider {
+    position: absolute;
+    cursor: pointer;
+    background-color: #ccc;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    transition: 0.4s;
+    border-radius: 34px;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 18px;
+    width: 18px;
+    left: 2px;
+    bottom: 2px;
+    background-color: white;
+    transition: 0.4s;
+    border-radius: 50%;
+}
+
+input:checked + .slider {
+    background-color: #007bff;
+}
+
+input:checked + .slider:before {
+    transform: translateX(20px);
+}
+
+.buttons {
+    margin-top: 25px;
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+}
+
+.save-btn,
+.cancel-btn {
+    padding: 8px 20px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: none;
+    cursor: pointer;
+    text-decoration: none;
+    display: inline-block;
+}
+
+.save-btn {
+    background-color: #007bff;
+    color: white;
+}
+
+.cancel-btn {
+    background-color: #e4e4e4;
+    color: #333;
+}
+
+/* .role-bar {
+    .role-bar {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 20px;
+        padding-left: 10px;
+        font-size: 16px;
+        font-weight: 500;
+    }
+} */
+
+.role-bar label {
+    font-weight: 600;
+    color: #333;
+    margin-right: 10px;
+}
+
+.role-bar input {
+    width: 300px;
+    padding: 10px 14px;
+    background-color: #f9f9f9;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 15px;
+}
+
+.custom-floating-label {
+    position: absolute;
+    top: -0.6rem;
+    left: 0.75rem;
+    background-color: #fff;
+    padding: 0 5px;
+    font-size: 0.75rem;
+    color: #6c757d;
+}

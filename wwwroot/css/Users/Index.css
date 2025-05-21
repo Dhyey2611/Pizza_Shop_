@@ -1,0 +1,204 @@
+/* Table Styling */
+.table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #ffffff;
+    border-spacing:15px;  /* Set the background color of the table */
+}
+
+.table th, .table td {
+    padding: 25px;
+    text-align: left;
+    vertical-align: middle;
+    border-bottom: 2px solid #dee2e6; /* Row divider styling */
+}
+
+.table th {
+    background-color: #ffffff;
+    font-weight: bold;
+    color: #696969;
+}
+
+.table tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.table td {
+    border-bottom: 1px solid #5b5b5b;
+    background-color: white;
+}
+
+/* Avatar Styling */
+.table td img {
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+}
+
+/* Badge Styles (Active/Inactive) */
+.badge {
+    font-size: 14px;
+    padding: 6px 10px;
+    border-radius: 20px;
+}
+
+.badge.bg-success {
+    background-color: #28a745;
+}
+
+.badge.bg-secondary {
+    background-color: #6c757d;
+}
+
+/* Button Group for Actions */
+.table .btn-group a {
+    margin-right: 10px;
+}
+
+/* Search Bar Styling */
+.input-group {
+    max-width: 250px;
+    margin-right: 20px;
+    position: relative;
+}
+
+.input-group .search-icon {
+    position: absolute !important;
+    right: 10px !important;  /* Position the icon inside the input field */
+    top: 50% !important;
+    transform: translateY(-50%) !important;  /* Vertically center the icon */
+    font-size: 18px !important;  /* Icon size */
+    color: #007bff !important;  /* Icon color */
+    pointer-events: none !important;  /* Prevents clicking on the icon */
+}
+/* Pagination Controls */
+.page-control {
+    margin-left: auto;
+}
+
+.page-control button {
+    margin-left: 10px;
+}
+
+/* Styling for "Add User" button */
+.btn-primary {
+    background-color: #007bff;
+    border-color: #007bff;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+    border-color: #0056b3;
+}
+
+/* Add more spacing for the bottom of the table */
+.table-container {
+    margin-bottom: 30px;
+}
+
+/* Fix the width of the table */
+.table-responsive {
+    overflow-x: auto;
+}
+
+.top-bar .user-icon {
+    margin-left: auto; /* Pushes the user icon to the rightmost side */
+}
+/* User Icon styling inside the blue bar */
+/* .top-bar .user-icon img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    cursor: pointer;
+} */
+
+/* Users section below blue bar */
+.container-fluid .text-primary {
+    font-size: 30px;
+    font-weight: bold;
+}
+
+/* Search Bar and Add User Button alignment */
+.d-flex {
+    display: flex;
+    /* align-items: center; */
+}
+
+/* Adjusted the main content and table */
+.card-body {
+    padding: 0;
+}
+
+.table {
+    margin-top: 20px;
+}
+
+.table th, .table td {
+    padding: 15px 40px;
+}
+
+.table .btn {
+    margin-right: 5px;
+}
+
+/* Add spacing between the top bar and content area */
+.mt-4 {
+    margin-top: 20px;
+}
+
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;  /* Spaces the Dashboard and Current Month sections */
+    align-items: center;
+    margin-top: 10px;
+    padding: 0 20px;
+}
+
+.dashboard-title {
+    color: #007bff;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+/* User Icon next to name in table */
+.table-user-icon {
+    width: 40px;         /* Set the width */
+    height: 40px;        /* Set the height */
+    border-radius: 50%;  /* Makes the image circular */
+    object-fit: cover;   /* Ensures the image fits well inside the circle */
+    margin-right: 10px;  /* Space between the image and the text */
+}
+
+/* Style for sorting arrows next to the name */
+th i {
+    cursor: pointer;
+    font-size: 16px; /* Adjust the icon size */
+    color: #007bff; /* Blue color for icons */
+    transition: color 0.3s ease; /* Add smooth transition effect */
+}
+
+/* Change color on hover */
+th i:hover {
+    color: #0056b3; /* Darker blue color when hovered */
+}
+
+/* Ensure icons are properly spaced */
+th i.ms-1 {
+    margin-left: 0px; /* Adds space between the Name text and the arrows */
+}
+
+/* Ensuring that buttons are visible */
+.btn-group a {
+    display: inline-block;
+    padding: 6px 12px;
+    font-size: 16px;
+    text-align: center;
+    text-decoration: none;
+}
+
+/* Make sure icons inside the buttons are centered and properly sized */
+.btn-group i {
+    font-size: 18px; /* Adjust the icon size */
+    vertical-align: middle; /* Ensures the icons are aligned properly */
+}

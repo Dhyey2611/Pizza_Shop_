@@ -1,0 +1,21 @@
+@model List<Pizza_Shop_.Models.Modifier>
+
+@if (Model != null && Model.Count > 0)
+{
+    <div class="modifier-details mt-3">
+        <h6>Modifiers:</h6>
+        <ul class="list-group">
+            @foreach (var mod in Model)
+            {
+                <li class="list-group-item d-flex justify-content-between">
+                    <span>@mod.Name</span>
+                    <span>₹@mod.Price</span>
+                </li>
+            }
+        </ul>
+    </div>
+}
+else
+{
+    <p class="text-muted mt-3">No modifiers found.</p>
+}

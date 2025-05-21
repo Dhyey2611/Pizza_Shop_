@@ -1,0 +1,73 @@
+/* Blue Navbar Top Bar */
+.top-bar {
+    background-color: #007bff;
+    height: 100px;
+    width: 100%;  /* Adjust width to take up remaining space after sidebar */
+    padding-right:30px;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    box-sizing: border-box;
+    /* border-bottom: 1px solid #ccc; */
+    margin-top:75px;
+    /* margin-left: 17px; */
+}
+
+/* User Icon inside Navbar */
+.user-icon {
+    width: 35px !important;
+    height: 35px !important;
+    border-radius: 50% !important;
+}
+
+/* Popup Menu (hidden by default) */
+.popup-menu {
+    display: none;
+    position: absolute;
+    top: 15%; /* Positioning the dropdown below the icon */
+    left: 92%;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 2px solid rgb(217, 215, 215);
+    width: 220px;
+    padding: 10px;
+    z-index: 9999; 
+}
+
+/* When the menu is active (on click) */
+.popup-menu.active{
+    display: block;
+}
+
+/* Popup Row */
+.popup-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.popup-row i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.popup-username, .popup-row span {
+    font-size: 16px;
+    font-weight:bold;
+    color: #222;
+    margin-left:5px;
+}
+
+/* Remove the border from the last row */
+.popup-row:last-child {
+    border-bottom: none;
+}
+
+/* Hover effects for each option */
+.popup-row:hover {
+    background-color: #ffffffc7;
+    transition: background 0.3s ease-in-out;
+}

@@ -1,0 +1,67 @@
+@model Pizza_Shop_.ViewModels.MenuPageViewModel
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Select Existing Modifiers</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <div class="modal-body">
+                <input type="text" id="modifierSearch" placeholder="Search" class="form-control mb-3" />
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Select</th>
+                            <th>Name</th>
+                            <th>Unit</th>
+                            <th>Quantity</th>
+                            <th>Rate</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var mod in Model.Modifiers)
+                        {
+                            <tr class="modifier-row" data-name="@mod.Name.ToLower()">
+                                <td>
+                                    <input type="checkbox" class="modifier-checkbox" value="@mod.ModifierId" data-name="@mod.Name" />
+                                </td>
+                                <td>@mod.Name</td>
+                                <td>@mod.Unit</td>
+                                <td>@mod.Quantity</td>
+                                <td>₹@mod.Price</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+               
+                <div class="pagination-controls d-flex justify-content-end align-items-center mt-3">
+                @{
+                int currentpage = Model.CurrentPage;
+                int Totalitems = Model.TotalItems;
+                int Totalpages = (int)Math.Ceiling((double)Totalitems / 5);
+                }
+                <div class="items-per-page me-3">
+                <label>Items Per page:</label>
+                <select class="form-select">
+                <option selected>5</option>
+                </select>
+                </div>
+                <span class="ms-3">Showing @((currentpage - 1) * 5 + 1)-@(Math.Min(currentpage * 5, Totalitems)) of @Totalitems</span>
+                <span class="ms-3">Page @currentpage of @Totalpages</span>
+                @if (currentpage > 1)
+                {
+                <a href="#" class="pagination-link btn btn-sm btn-outline-secondary me-1" data-page="@(currentpage - 1)">&lt; </a>
+                }
+                @if (currentpage < Totalpages)
+                {
+                <a href="#" class="pagination-link btn btn-sm btn-outline-secondary" data-page="@(currentpage + 1)"> &gt;</a>
+                }
+                </div>
+            </div>
+
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="addModifiersBtn" data-bs-dismiss="modal">Add</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+            </div>
+        </div>
+<script src="~/js/Menu/Modifiers/modal_search.js"></script>

@@ -1,0 +1,71 @@
+@model Pizza_Shop_.ViewModels.EditPermissionsViewModel
+
+@{
+    ViewData["Title"] = "Permissions";
+    Layout = "_Layout";
+}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" integrity="sha512-..." crossorigin="anonymous" referrerpolicy="no-referrer" />
+<link rel="stylesheet" href="~/css/Users/Permissions.css" />
+<div class="permissions-container">
+    <h2>Permissions</h2>
+
+    <div class="form-floating-label-wrapper position-relative mb-3" style="max-width: 400px;">
+    <input type="text" class="form-control" id="role" value="@Model.RoleName" readonly />
+    <label for="role" class="custom-floating-label">Role</label>
+    </div>
+
+    <form asp-action="Permissions" method="post">
+        <input type="hidden" name="RoleId" value="@Model.RoleId" />
+        <input type="hidden" name="RoleName" value="@Model.RoleName" />
+
+        <div class="permissions-table-wrapper">
+            <table class="permissions-table">
+                <thead>
+                    <tr>
+                        <th></th>
+                        <th>Permission</th>
+                        <th>Can View</th>
+                        <th>Can Add/Edit</th>
+                        <th>Can Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @for (int i = 0; i < Model.Permissions.Count; i++)
+                    {
+                    <tr>
+                    <td>
+                    @Html.HiddenFor(m => m.Permissions[i].Id)
+                    @Html.HiddenFor(m => m.Permissions[i].Module)
+                    @Html.CheckBoxFor(m => m.Permissions[i].IsSelected)
+                    </td>
+                    <td>@Model.Permissions[i].Module</td>
+                    <td>
+                    <label class="switch">
+                    @Html.CheckBoxFor(m => m.Permissions[i].CanView)
+                    <span class="slider round"></span>
+                    </label>
+                    </td>
+                    <td>
+                    <label class="switch">
+                    @Html.CheckBoxFor(m => m.Permissions[i].CanAddEdit)
+                    <span class="slider round"></span>
+                    </label>
+                    </td>
+                    <td>
+                    <label class="switch">
+                    @Html.CheckBoxFor(m => m.Permissions[i].CanDelete)
+                    <span class="slider round"></span>
+                    </label>
+                    </td>
+                    </tr>
+                }
+                </tbody>
+            </table>
+        </div>
+
+        <div class="buttons">
+            <button type="submit" class="save-btn">Save</button>
+            <a href="@Url.Action("Role", "User")" class="cancel-btn">Cancel</a>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,162 @@
+@model Pizza_Shop_.ViewModels.EditUserViewModel
+
+@{
+    ViewData["Title"] = "Edit User";
+}
+@{
+    Layout = "_Layout";  // Use the common layout for this page
+}
+<head>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<link rel="stylesheet" href="~/css/Users/Edit.css"/>
+</head>
+
+@* <div class="container mt-4"> *@
+    <div class="custon-wrapper mt-4">
+    <!-- First Row: Create New User Title and Back Button -->
+    <div class="row">
+        <div class="col-6">
+            <h2 class="text-left text-primary mb-4">Edit User</h2>
+        </div>
+        <div class="col-6 text-right">
+            <a asp-action="Index" class="btn btn-secondary">Back</a>
+        </div>
+    </div>
+
+    <div class="card shadow-lg p-4">
+        <form asp-action="Edit" asp-controller="User" method="post" id="editUserForm">
+            <input type="hidden" asp-for="Id" /> @*Newly added*@
+            <div asp-validation-summary="ModelOnly" class="alert alert-danger"></div>
+
+            <!-- First Row: First Name, Last Name -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="FirstName" class="form-label fw-bold">First Name</label>
+                    <input asp-for="FirstName" class="form-control" required placeholder="Enter first name" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="LastName" class="form-label fw-bold">Last Name</label>
+                    <input asp-for="LastName" class="form-control" required placeholder="Enter last name" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Second Row: Username, Role -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="Username" class="form-label fw-bold">Username</label>
+                    <input asp-for="Username" class="form-control" required placeholder="Enter username" />
+                    <span asp-validation-for="Username" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="UserType" class="form-label fw-bold">User Type</label>
+                    <select asp-for="UserType" class="form-control" required>
+                        <option value="Super Admin">Super Admin</option>
+                        <option value="Chef">Chef</option>
+                        <option value="Account Manager">Account Manager</option>
+                    </select>
+                    <span asp-validation-for="UserType" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Third Row: Email, Password -->
+            <div class="row mb-3">
+                <div class="col-md-6">
+                    <label asp-for="Email" class="form-label fw-bold">Email</label>
+                    <input asp-for="Email" type="email" class="form-control" required placeholder="Enter email" />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+                <div class="col-md-6">
+                    <label asp-for="Status" class="form-label fw-bold">Status</label>
+                    <select asp-for="Status" class="form-control" required>
+                        <option value="Active">Active</option>
+                        <option value="Inactive">Inactive</option>
+                    </select>
+                    <span asp-validation-for="Status" class="text-danger"></span>
+                </div>
+            </div>
+
+            <!-- Fourth Row: Browse Files, Country, State, City -->
+            <div class="row mb-3">
+                <div class="col-md-12 text-center">
+                    <div class="border-dotted-box">
+                        <label class="form-label">Browse Files</label>
+                        <div class="cloud-icon">
+                            <i class="fas fa-cloud-upload-alt"></i>
+                        </div>
+                    </div>
+                </div>
+             <div class="col-md-4">
+             <label class="form-label fw-bold">Country</label>
+             <select id="countryDropdown" class="form-control" asp-for="CountryId">
+              <option value="">Select Country</option>
+             </select>
+             <input type="hidden" asp-for="CountryId" id="hiddenCountryId" />
+             @* <input type="hidden" name="CountryId" id="hiddenCountryId" value="@Model.CountryId" /> *@
+             <span asp-validation-for="Country" class="text-danger"></span>
+             </div>
+            
+             <div class="col-md-4">
+             <label class="form-label fw-bold">State</label>
+             <select id="stateDropdown" class="form-control" asp-for="StateId">
+             <option value="">Select State</option>
+             </select>
+             <input type="hidden" asp-for="StateId" id="hiddenStateId" />
+             @* <input type="hidden" name="StateId" id="hiddenStateId" value="@Model.StateId" /> *@
+             <span asp-validation-for="State" class="text-danger"></span>
+             </div>
+
+             <div class="col-md-4">
+             <label class="form-label fw-bold">City</label>
+             <select id="cityDropdown" class="form-control" asp-for="CityId">
+             <option value="">Select City</option>
+             </select>
+             <input type="hidden" asp-for="CityId" id="hiddenCityId" />
+             @* <input type="hidden" name="CityId" id="hiddenCityId" value="@Model.CityId" /> *@
+             <span asp-validation-for="City" class="text-danger"></span>
+             </div>
+            </div>
+
+
+            <div class="row mb-3">
+            <div class="col-md-4">
+            <label asp-for="ZipCode" class="form-label fw-bold">Zipcode</label>
+            <input asp-for="ZipCode" class="form-control" placeholder="Enter zipcode" />
+            <span asp-validation-for="ZipCode" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+            <label asp-for="Address" class="form-label fw-bold">Address</label>
+            <input asp-for="Address" class="form-control" placeholder="Enter address" />
+            <span asp-validation-for="Address" class="text-danger"></span>
+            </div>
+            <div class="col-md-4">
+            <label asp-for="PhoneNo" class="form-label fw-bold">Phone</label>
+            <input asp-for="PhoneNo" class="form-control" placeholder="Enter phone number" />
+            <span asp-validation-for="PhoneNo" class="text-danger"></span>
+            </div>
+            </div>
+
+            <!-- Last Row: Create User and Cancel -->
+            <div class="d-flex justify-content-start">
+                <button type="submit" class="btn btn-primary btn-lg">Update User</button>
+                <a asp-action="Index" class="btn btn-secondary ms-3">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+<script>
+    @* @{await Html.RenderPartialAsync("_ValidationScriptsPartial");} *@
+
+        @* $("#createUserForm").submit(function (e) {
+            if (!$(this).valid()) {
+                e.preventDefault(); 
+            }
+        }); *@
+</script>
+<script src="~/js/User/edit.js" defer></script>
+<input type="hidden" id="selectedCountryId" value="@Model.CountryId"/>
+<input type="hidden" id="selectedStateId" value="@Model.StateId" />
+<input type="hidden" id="selectedCityId" value="@Model.CityId" />
+}

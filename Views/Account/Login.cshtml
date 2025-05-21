@@ -1,0 +1,76 @@
+@{
+    Layout = null; 
+}
+<link rel="stylesheet" href="~/css/login.css">
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PizzaShop Login</title>
+    <link rel="stylesheet" href="~/css/login.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+<body>
+
+    <div class="container">
+        <!-- Left Side (Pizza Image) -->
+        <div class="image-side">
+            <img src="~/images/pizza_image.png" alt="">
+        </div>
+
+        <!-- Right Side (Login Form) -->
+        <div class="login-side">
+            <div class="login-box">
+                <img src="~/images/pizzashop_logo.png" alt="PIZZASHOP" class="logo">
+                <h2>Welcome,</h2>
+                @if (!string.IsNullOrEmpty(ViewBag.Error))
+                {
+                    <div class="alert alert-danger" style="color: red; font-weight: bold; margin-bottom: 10px; text-align: center;">
+                    @ViewBag.Error
+                    </div>
+                }
+                <form method="post" asp-controller="Account" asp-action="Login" asp-antiforgery="true">
+                    <div class="input-group">
+                        <i class="fa fa-user"></i>
+                        <input type="email" name="Email" placeholder="Email*" required>
+                    </div>
+
+                    <div class="input-group">
+                   <input type="password" id="password" name="Password" class="form-control" placeholder="Enter password" required>
+                    <i class="fa fa-eye-slash" id="togglePassword" style="cursor: pointer;"></i>
+                    </div>
+
+                    <script>
+                    document.getElementById("togglePassword").addEventListener("click", function() {
+                    var passwordInput = document.getElementById("password");
+                    var icon = this;
+
+                    if (passwordInput.type === "password") {
+                    passwordInput.type = "text"; // Show password
+                    icon.classList.remove("fa-eye-slash");
+                    icon.classList.add("fa-eye"); // Change to open eye icon
+                    } else {
+                    passwordInput.type = "password"; // Hide password
+                    icon.classList.remove("fa-eye");
+                    icon.classList.add("fa-eye-slash"); // Change to hidden eye icon
+                    }
+                    });
+                </script>
+
+                    <div class="options">
+                        <label>
+                            <input type="checkbox" name="RememberMe" value="true"> Remember me
+                        </label>
+                        <a href="@Url.Action("ForgotPassword", "Account")">Forgot Password?</a>
+                    </div>
+
+                    <button type="submit" class="login-btn">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>

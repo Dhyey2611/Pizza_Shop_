@@ -1,0 +1,408 @@
+
+.admin-container {
+    display: flex;
+    flex-wrap: nowrap;  
+    align-content: flex-start;   
+    justify-content: flex-start;  
+    background-color:#dfdfdf !important;
+    width: 2200px;
+    height: 100%;
+    border:none;
+    outline:none;
+    overflow: auto;
+    padding-right:0px;
+}
+
+.dashboard-header {
+    width: 100%;  /* Same width as the main content */
+}
+
+/* Dashboard and Current Month Section */
+.dashboard-top {
+    display: flex;
+    justify-content: space-between;  /* Spaces the Dashboard and Current Month sections */
+    align-items: center;
+    margin-top: 10px;
+    padding: 0 20px;
+}
+
+.dashboard-title{
+    color: #007bff;
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.current-month-right {
+    display: flex;
+    justify-content: flex-end;  /* Aligns dropdown to the right */
+}
+
+.current-month-dropdown {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+
+/* Current Month Dropdown - Right Aligned */
+.current-month-right select {
+    padding: 5px 10px;
+    font-size: 14px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+.main-content {
+    /* margin-left: 20px;  */
+    padding-right:20px;
+    margin-left: 20px;
+    padding-right: 20px;
+    width: 100%;
+    padding-bottom: 0px;  /* Remove bottom padding */
+    margin-bottom: 0;
+}
+
+/* New Box Styling */
+.new-boxes {
+    margin-top: 20px;
+}
+
+/* Styling for each box */
+.box {
+    background-color: #ffffff;
+    border: 1px solid #ddd;
+    border-radius: 12px;
+    padding: 10px;
+    margin-bottom: 15px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+    text-align: left;
+    position: relative;
+}
+
+.row-3 .box {
+    border-bottom-left-radius: 20px;  /* Increase to your preference */
+    border-bottom-right-radius: 20px; /* Increase to your preference */
+}
+
+.left-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: flex-start;
+}
+
+/* ₹1630 in a bigger size */
+.amount {
+    font-size: 36px;
+    font-weight: bold;
+    color: #000000; /* Set the color to blue */
+    margin-bottom: 0px;
+    margin-top: 45px;
+}
+
+/* Smaller text below ₹1630 */
+.total-sales {
+    font-size: 16px;
+    color: #080808;
+    margin-bottom: 12px;
+}
+
+/* Arrow icon styling */
+.arrow-icon {
+    position: absolute;
+    top: 10px;  /* Distance from the top of the box */
+    right: 10px;  /* Distance from the right of the box */
+    background-color: #16d232; /* Blue circle background */
+    border-radius: 50%;       /* Makes the background circular */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    /* z-index:10; */
+}
+
+/* Styling for the rising arrow icon */
+.arrow-icon i {
+    font-size: 27px;
+    color: rgb(255, 255, 255);
+}
+
+/* Box Content (Title and Value) */
+.box-content h5 {
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+}
+
+.box-content p {
+    font-size: 14px;
+    color: #000000; /* Set the value text color to blue */
+}
+
+
+/* Responsive Grid Layout */
+.row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+/* Styling for the notepad and pencil icons inside the Total Orders Box */
+.icon-container {
+    position: absolute;
+    top: 10px;  /* Distance from the top of the box */
+    right: 10px;  /* Distance from the right of the box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #c620dc; /* Blue circle background */
+    border-radius: 100%;       /* Makes the background circular */
+    padding: 10px;
+}
+
+/* Styling for the notepad and pencil icons in the Total Orders Box */
+.icon-container i {
+    font-size: 20px;         /* Icon size */
+    color: white;            /* Icon color */
+    margin-left: 5px;        /* Add some space between the two icons */
+}
+
+.avg-order-icon-container {
+    position: absolute;
+    top: 10px;  /* Distance from the top of the box */
+    right: 10px;  /* Distance from the right of the box */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007bff; /* Blue circle background */
+    border-radius: 50%;       /* Makes the background circular */
+    padding: 10px;
+}
+
+/* Styling for the notepad icon in the Avg. Order Value Box */
+.avg-order-icon-container i {
+    font-size: 20px;         /* Icon size */
+    color: white;            /* Icon color */
+}
+
+.clock-icon {
+    position: absolute;
+    top: 10px;  /* Distance from the top of the box */
+    right: 10px;  /* Distance from the right of the box */
+    background-color: #f8d7da; /* Light red circle background */
+    border-radius: 50%;       /* Makes the background circular */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styling for the clock icon */
+.clock-icon i {
+    font-size: 20px;/* Icon size */
+    color: #db7d47;/* Icon color */
+}
+
+.hourglass-icon {
+    position: absolute;
+    top: 10px;  /* Distance from the top of the box */
+    right: 10px;  /* Distance from the right of the box */
+    background-color: #c6d35e; /* Light red circle background */
+    border-radius: 50%;       /* Makes the background circular */
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+/* Styling for the clock icon */
+.hourglass-icon i {
+    font-size: 20px;/* Icon size */
+    color: #2e3032;/* Icon color */
+}
+
+ .single-person-icon {
+    position: absolute;
+    top: 10px;  
+    right: 10px;  
+    background-color: #df904f; 
+    border-radius: 50%;       
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+.single-person-icon i {
+    font-size: 20px;
+    color: #2e3032;
+    position: relative;
+} 
+
+
+
+/* Rank styling (#1, #2, etc.) */
+.rank {
+    font-size: 24px;
+    font-weight: bold;
+    color: #007bff;
+    margin-right: 10px;
+}
+
+/* Item name and utensil icon */
+.item-details {
+    display: inline-flex;
+    align-items: center;
+    margin-bottom: 0px;
+}
+
+.item-details .icon {
+    background-color: orange;
+    color: white;
+    padding: 5px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.item-name {
+    font-size: 20px;
+    font-weight: normal;
+}
+
+/* Order details with small utensil icon */
+.order-details {
+    display: inline-flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.small-icon {
+    font-size: 14px;
+    margin-right: 5px;
+}
+
+.order-count {
+    font-size: 14px;
+    color: #333;
+}
+
+/* Separator Line */
+.separator {
+    border: 0;
+    border-top: 1px solid #181717;
+    margin: 5px 0;
+}
+
+/* 4 Boxes in a line (1st and 3rd row) */
+.col-md-3 {
+    flex: 0 0 24%;  /* 4 boxes in a row */
+    max-width: 24%;
+}
+
+/* 2 Boxes in a line (2nd row) */
+.col-md-6 {
+    flex: 0 0 48%;  /* 2 boxes in a row */
+    max-width: 48%;
+}
+
+/* Graph Container Styling */
+.graph-container {
+    position: relative;
+    width: 100%;
+    height: 200px;  /* Adjust the height of the graph */
+}
+
+/* Add a shadow or border to the graph container */
+.graph-container {
+    background-color: #f5f5f5;
+    border-radius: 10px;
+    padding: 10px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Title styling for Graph */
+.box-content h5 {
+    font-size: 18px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 15px;  /* Reduced gap */
+}
+
+/* Adjust box layout to match current progress */
+.col-md-6 {
+    margin-bottom: 20px;
+}
+
+/* Additional styling to make sure the graph fits correctly within the box */
+#revenueGraph, #customerGrowthGraph {
+    width: 100%;
+    height: 100%;
+}
+
+/* Profile Icon (Existing user icon) */
+/* .user-icon {
+    cursor: pointer;
+    position: relative;
+}
+
+.user-icon img {
+    cursor: pointer;
+    width: 65px;  
+    height: 65px;
+    border-radius: 46%;
+    color:black;
+    padding-bottom:15px;
+} */
+
+
+/* .popup-menu {
+    display: none;
+    position: absolute;
+    top: 15%; 
+    left: 75%;
+    background-color: #fff;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    border-radius: 8px;
+    border: 2px solid rgb(217, 215, 215);
+    width: 220px;
+    padding: 10px;
+    z-index: 9999; 
+}
+
+.popup-menu.active{
+    display: block;
+}
+
+
+.popup-row {
+    display: flex;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.popup-row i {
+    margin-right: 10px;
+    font-size: 18px;
+}
+
+.popup-username, .popup-row span {
+    font-size: 16px;
+    font-weight:bold;
+    color: #222;
+    margin-left:5px;
+}
+
+.popup-row:last-child {
+    border-bottom: none;
+}
+
+
+.popup-row:hover {
+    background-color: #ffffffc7;
+    transition: background 0.3s ease-in-out;
+} */

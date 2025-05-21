@@ -1,0 +1,35 @@
+
+   <link rel ="stylesheet" href="~/css/sidebar.css"/>
+   <aside class="sidebar">
+    <!-- Pizza Logo outside the blue bar -->
+    <div class="logo">
+        <img src="~/images/Pizzashop_logo.png" alt="Pizza Logo" />
+    </div>
+    @{
+        @* var currentController = ViewContext.RouteData.Values["controller"] as string ?? ""; *@
+        var currentController = ViewContext.RouteData.Values["controller"]?.ToString() ?? "";
+        var currentAction = ViewContext.RouteData.Values["action"]?.ToString() ?? "";
+    }
+    <!-- Menu Items -->
+    <div class="menu">
+        <a href="/SuperAdmin/Dashboard" class="menu-item @(currentController == "SuperAdmin" && currentAction == "Dashboard" ? "menu-item-blue" : "")">
+            <i class="fas fa-square"></i> Dashboard
+        </a>
+        <a href="/User/Index" class="menu-item @(currentController == "User" && currentAction == "Index" ? "menu-item-blue" : "")">
+        <i class="fas fa-users"></i> Users
+        </a>
+        <a href="/User/Role" class="menu-item @(currentController == "User" && (currentAction == "Role" || currentAction == "Permissions") ? "menu-item-blue" : "")">
+        <i class="fas fa-user"></i> Roles and Permission
+        </a>
+        @* <a href="#" class="menu-item"><i class="fas fa-utensils"></i> Menu</a> *@
+        <a href="/SuperAdmin/Menu" class="menu-item @(currentController == "SuperAdmin" && (currentAction == "Menu" || currentAction == "Modifiers") ? "menu-item-blue" : "")">
+        <i class="fas fa-utensils"></i> Menu
+        </a>
+        <a href="/SuperAdmin/TablesandSections" class="menu-item @(currentController == "SuperAdmin" && currentAction == "TablesAndSections" ? "menu-item-blue" : "")">
+        <i class="fas fa-box"></i> Tables and Section
+        </a>
+        <a href="#" class="menu-item"><i class="fas fa-rupee-sign"></i> Taxes and Fees</a>
+        <a href="#" class="menu-item"><i class="fas fa-check-square"></i> Orders</a>
+        <a href="#" class="menu-item"><i class="fas fa-id-card"></i> Customers</a>
+    </div>
+</aside>

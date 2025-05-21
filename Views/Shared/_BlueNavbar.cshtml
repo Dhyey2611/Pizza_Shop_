@@ -1,0 +1,60 @@
+@* Views/Shared/_BlueNavbar.cshtml *@
+<link rel="stylesheet" href="~/css/BlueNavbar.css" />
+
+<!-- Blue Bar (Top Navigation Only) -->
+<div class="top-bar d-flex justify-content-end align-items-center">
+    @* User Icon on all pages *@
+    <div class="user-icon" @(ViewContext.RouteData.Values["controller"]?.ToString() == "SuperAdmin" && ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard" ? "onclick=\"togglePopupMenu()\"" : "")>
+        <img src="~/images/user_icon.png" alt="User Icon" class="rounded-circle" style="max-width:65px;" />
+
+        @* Popup menu only on Dashboard *@
+        @if (ViewContext.RouteData.Values["controller"]?.ToString() == "SuperAdmin" &&
+             ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard")
+        {
+            <div class="popup-menu" id="popupMenu">
+                <!-- First row: Admin Photo and Username -->
+                <div class="popup-row">
+                    <img src="~/images/admin_photo.png" alt="Admin" class="popup-img" />
+                    <span class="popup-username">Admin</span>
+                </div>
+
+                <!-- My Profile -->
+                <div class="popup-row" onclick="window.location.href='/Account/MyProfile'">
+                    <i class="fas fa-user"></i>
+                    <span>My Profile</span>
+                </div>
+
+                <!-- Change Password -->
+                <div class="popup-row" onclick="window.location.href='/Account/ChangePassword'">
+                    <i class="fas fa-sync"></i>
+                    <span>Change Password</span>
+                </div>
+
+                <!-- Logout -->
+                <div class="popup-row" onclick="window.location.href='/Account/Logout'">
+                    <i class="fas fa-sign-out-alt"></i>
+                    <span>Logout</span>
+                </div>
+            </div>
+        }
+    </div>
+</div>
+
+@if (ViewContext.RouteData.Values["controller"]?.ToString() == "SuperAdmin" &&
+     ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard")
+{
+    <script>
+        function togglePopupMenu() {
+            const popup = document.getElementById("popupMenu");
+            popup.style.display = popup.style.display === "block" ? "none" : "block";
+        }
+
+        document.addEventListener("click", function (event) {
+            const icon = document.querySelector(".user-icon");
+            const menu = document.getElementById("popupMenu");
+            if (!icon.contains(event.target)) {
+                menu.style.display = "none";
+            }
+        });
+    </script>
+}

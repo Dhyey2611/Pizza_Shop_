@@ -1,0 +1,19 @@
+/* Layout for main content area */
+.main-content {
+    display: flex;
+    flex: 1; /* Take up the remaining space after sidebar */
+    padding-left: 20px; /* Adjust space between sidebar and content */
+    padding-top: 10px;  /* To give a slight margin from the top */
+  }
+  
+  /* Ensures content doesn't overflow */
+.content-container {
+    flex: 1; /* Make the content take the full width excluding the sidebar */
+    margin-left: 20px; /* Adjust content position */
+  }
+  
+  /* Content area - where the page's content will be rendered */
+.content-area {
+    margin-top: 30px; /* Add margin from blue bar to content */
+    padding-right: 20px; /* Adjust space on the right side */
+}
