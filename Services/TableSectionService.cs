@@ -54,7 +54,32 @@ namespace Pizza_Shop_.Services
         }
         public void UpdateTable(EditTableViewModel model)
         {
-         _tableSectionRepository.UpdateTable(model);
+            _tableSectionRepository.UpdateTable(model);
+        }
+        public List<Tax_and_fee> GetAllTaxes()
+        {
+            return _tableSectionRepository.GetAllTaxes();
+        }
+        public void CreateTax(CreateTaxViewModel model)
+        {
+            var tax = new Tax_and_fee
+            {
+                Name = model.Name,
+                Type = model.Type,
+                Value = model.Value,
+                Is_enabled = model.Is_enabled,
+                Is_default = model.Is_default,
+                Is_active = true,
+            };
+            _tableSectionRepository.AddTax(tax);
+        }
+        public void UpdateTax(EditTaxViewModel model)
+        {
+            _tableSectionRepository.UpdateTax(model);
+        }
+        public void SoftDeleteTaxes(int id)
+        {
+            _tableSectionRepository.SoftDeleteTaxes(id);
         }
     }
 }

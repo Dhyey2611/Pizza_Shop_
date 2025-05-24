@@ -24,11 +24,12 @@ namespace Pizza_Shop_.Data
         public DbSet<MenuItemsModifierGroupMapper> MenuItemsModifierGroupMapper { get; set; }
         public DbSet<Table> Tables { get; set; }
         public DbSet<Section> Sections { get; set; }
+        public DbSet<Tax_and_fee> Taxes_and_Fees { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Table>()
                 .Property(t => t.Status)
-                .HasConversion<int>(); 
+                .HasConversion<int>();
             base.OnModelCreating(modelBuilder);
         }
     }

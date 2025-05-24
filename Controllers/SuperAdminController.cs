@@ -489,5 +489,104 @@ namespace Pizza_Shop_.Controllers
             }
             return RedirectToAction("TablesandSections");
         }
+        public IActionResult TaxesandFees()
+        {
+            var taxes = _tableSectionService.GetAllTaxes();
+            return View(taxes);
+        }
+        // [HttpPost]
+        // public IActionResult CreateTax(CreateTaxViewModel model)
+        // {
+        // _tableSectionService.CreateTax(model);
+        // return RedirectToAction("TaxesandFees");
+        // }
+        [HttpPost]
+        public IActionResult CreateTax(CreateTaxViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                foreach (var state in ModelState)
+                {
+                    Console.WriteLine($"Field: {state.Key}");
+                    foreach (var error in state.Value.Errors)
+                    {
+                        Console.WriteLine($" - Error: {error.ErrorMessage}");
+                    }
+                }
+
+                return RedirectToAction("TaxesandFees");
+            }
+            Console.WriteLine($"Is_enabled: {model.Is_enabled}, Is_default: {model.Is_default}");
+            _tableSectionService.CreateTax(model);
+            return RedirectToAction("TaxesandFees");
+        }
+        [HttpGet]
+        public IActionResult GetTaxById(int id)
+        {
+            var tax = _tableSectionService.GetAllTaxes().FirstOrDefault(t => t.Id == id);
+            if (tax == null) return NotFound();
+            var model = new EditTaxViewModel
+            {
+                Id = tax.Id,
+                Name = tax.Name,
+                Type = tax.Type,
+                Value = tax.Value,
+                Is_enabled = tax.Is_enabled,
+                Is_default = tax.Is_default
+            };
+            return Json(model);
+        }
+        [HttpPost]
+        public IActionResult UpdateTax(EditTaxViewModel model)
+        {
+            Console.WriteLine("ModelState.IsValid: " + ModelState.IsValid);
+            if (!ModelState.IsValid)
+            {
+                foreach (var key in ModelState.Keys)
+                {
+                    var state = ModelState[key];
+                    if (state != null)
+                    {
+                        foreach (var error in state.Errors)
+                        {
+                            Console.WriteLine($"Error in '{key}': {error.ErrorMessage}");
+                        }
+                    }
+                }
+                return RedirectToAction("TaxesandFees");
+            }
+            Console.WriteLine($"Editing Tax - ID: {model.Id}, Name: {model.Name}, Type: {model.Type}, Value: {model.Value}, Is_enabled: {model.Is_enabled}, Is_default: {model.Is_default}");
+            _tableSectionService.UpdateTax(model);
+            return RedirectToAction("TaxesandFees");
+        }
+        // [HttpPost]
+        // public IActionResult DeleteTax(int id)
+        // {
+        // _tableSectionService.SoftDeleteTaxes(id);
+        // return RedirectToAction("TaxesandFees");
+        // }
+        [HttpPost]
+        public IActionResult DeleteTax(int id)
+        {
+        Console.WriteLine($"[DeleteTax] ModelState.IsValid: {ModelState.IsValid}");
+
+        if (!ModelState.IsValid)
+        {
+        foreach (var key in ModelState.Keys)
+        {
+            var state = ModelState[key];
+            if (state != null && state.Errors.Count > 0)
+            {
+                foreach (var error in state.Errors)
+                {
+                    Console.WriteLine($"[ModelState Error] Field: {key}, Error: {error.ErrorMessage}");
+                }
+            }
+        }
+        }
+        Console.WriteLine($"[DeleteTax] Received ID: {id}");
+        _tableSectionService.SoftDeleteTaxes(id);
+        return RedirectToAction("TaxesandFees");
+        }
     }
 }

@@ -75,5 +75,39 @@ namespace Pizza_Shop_.Repositories
                 _context.SaveChanges();
             }
         }
+        public List<Tax_and_fee> GetAllTaxes()
+        {
+            return _context.Taxes_and_Fees.Where(t => t.Is_active == true).ToList();
+        }
+        public void AddTax(Tax_and_fee tax)
+        {
+            _context.Taxes_and_Fees.Add(tax);
+            _context.SaveChanges();
+        }
+        public void UpdateTax(EditTaxViewModel model)
+        {
+            var tax = _context.Taxes_and_Fees.FirstOrDefault(t => t.Id == model.Id && t.Is_active == true);
+            if (tax != null)
+            {
+                tax.Id = model.Id;
+                tax.Name = model.Name;
+                tax.Type = model.Type;
+                tax.Value = model.Value;
+                tax.Is_enabled = model.Is_enabled;
+                tax.Is_default = model.Is_default;
+                _context.SaveChanges();
+            }
+        }
+        public void SoftDeleteTaxes(int id)
+        {
+            var tax = _context.Taxes_and_Fees.FirstOrDefault(st => st.Id == id && st.Is_active == true);
+            {
+                if (tax != null)
+                {
+                    tax.Is_active = false;
+                    _context.SaveChanges();
+                }
+            }
+        }
     }
 }

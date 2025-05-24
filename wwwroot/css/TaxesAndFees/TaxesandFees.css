@@ -1,0 +1,64 @@
+
+.page-title {
+    font-weight: 600;
+    color: #0d6efd;
+    margin-bottom: 20px;
+}
+
+.tax-card {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+}
+
+.tax-card-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+.search-box {
+    width: 250px;
+    border-radius: 8px;
+    padding-left: 2rem;
+}
+
+.search-icon {
+    position: absolute;
+    top: 50%;
+    left: 12px;
+    transform: translateY(-50%);
+    font-size: 16px;
+    color: #6c757d;
+}
+
+.new-tax-btn {
+    border-radius: 8px;
+    padding: 6px 16px;
+    font-weight: 500;
+}
+
+.tax-table th,
+.tax-table td {
+    vertical-align: middle;
+    font-size: 15px;
+}
+
+.form-check-input[type="checkbox"].switch-lg {
+    width: 2.5rem;
+    height: 1.4rem;
+    cursor: not-allowed;
+}
+
+.table-container {
+    background-color: #ffffff;
+    border-radius: 12px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+}

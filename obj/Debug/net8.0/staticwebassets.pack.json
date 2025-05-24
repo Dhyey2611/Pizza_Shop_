@@ -37,6 +37,10 @@
       "PackagePath": "staticwebassets\\css\\TablesAndSection.css"
     },
     {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\TaxesAndFees\\TaxesandFees.css",
+      "PackagePath": "staticwebassets\\css\\TaxesAndFees\\TaxesandFees.css"
+    },
+    {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\Users\\Create.css",
       "PackagePath": "staticwebassets\\css\\Users\\Create.css"
     },
@@ -169,6 +173,10 @@
       "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\Add_Section_Dropdown.js"
     },
     {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\CreateTax.js",
+      "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\CreateTax.js"
+    },
+    {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\DeleteSection.js",
       "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\DeleteSection.js"
     },
@@ -177,12 +185,20 @@
       "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\DeleteTable.js"
     },
     {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\DeleteTax.js",
+      "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\DeleteTax.js"
+    },
+    {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\EditSection.js",
       "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\EditSection.js"
     },
     {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\EditTable.js",
       "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\EditTable.js"
+    },
+    {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\EditTax.js",
+      "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\EditTax.js"
     },
     {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\User\\Index.js",

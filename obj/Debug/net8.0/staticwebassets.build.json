@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "dkwTanWBI2WkxYh7Qjz4pfF1o3B+ju2eSzcYSIocdoU=",
+  "Hash": "Dyr/XGmbejwi6fuFWu31QxbIB5H6aHaptClPRXuEnCc=",
   "Source": "Pizza_Shop_",
   "BasePath": "_content/Pizza_Shop_",
   "Mode": "Default",
@@ -300,6 +300,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\TablesAndSection.css"
+    },
+    {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\TaxesAndFees\\TaxesandFees.css",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "css/TaxesAndFees/TaxesandFees.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\TaxesAndFees\\TaxesandFees.css"
     },
     {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\Users\\Create.css",
@@ -815,6 +834,25 @@
       "OriginalItemSpec": "wwwroot\\js\\Tables_And_Sections\\Add_Section_Dropdown.js"
     },
     {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\CreateTax.js",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "js/Tables_And_Sections/CreateTax.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Tables_And_Sections\\CreateTax.js"
+    },
+    {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\DeleteSection.js",
       "SourceId": "Pizza_Shop_",
       "SourceType": "Discovered",
@@ -853,6 +891,25 @@
       "OriginalItemSpec": "wwwroot\\js\\Tables_And_Sections\\DeleteTable.js"
     },
     {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\DeleteTax.js",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "js/Tables_And_Sections/DeleteTax.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Tables_And_Sections\\DeleteTax.js"
+    },
+    {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\EditSection.js",
       "SourceId": "Pizza_Shop_",
       "SourceType": "Discovered",
@@ -889,6 +946,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Tables_And_Sections\\EditTable.js"
+    },
+    {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\EditTax.js",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "js/Tables_And_Sections/EditTax.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Tables_And_Sections\\EditTax.js"
     },
     {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\User\\create.js",

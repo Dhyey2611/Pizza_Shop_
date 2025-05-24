@@ -552,3 +552,4 @@ C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\refint\Pizza_Shop_.dll
 C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\Pizza_Shop_.pdb
 C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\Pizza_Shop_.genruntimeconfig.cache
 C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\ref\Pizza_Shop_.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\Pizza_Shop_.sourcelink.json
