@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "Dyr/XGmbejwi6fuFWu31QxbIB5H6aHaptClPRXuEnCc=",
+  "Hash": "iroD5dSFjHKvCshVsaHRYJUoGKop8wG0pvHiKp2fuWw=",
   "Source": "Pizza_Shop_",
   "BasePath": "_content/Pizza_Shop_",
   "Mode": "Default",
@@ -224,6 +224,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\css\\Menu\\Modifier.css"
+    },
+    {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\Orders\\Order.css",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "css/Orders/Order.css",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\css\\Orders\\Order.css"
     },
     {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\resetpassword.css",

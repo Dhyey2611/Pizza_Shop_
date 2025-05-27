@@ -109,5 +109,9 @@ namespace Pizza_Shop_.Repositories
                 }
             }
         }
+        public List<Order> GetAllOrders()
+        {
+            return _context.Orders.ToList();
+        }
     }
 }

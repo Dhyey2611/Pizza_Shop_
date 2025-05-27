@@ -81,5 +81,20 @@ namespace Pizza_Shop_.Services
         {
             _tableSectionRepository.SoftDeleteTaxes(id);
         }
+        public List<OrderListViewModel> GetAllOrders()
+        {
+        var orders = _tableSectionRepository.GetAllOrders();
+        return orders.Select(o => new OrderListViewModel
+        {
+        OrderId = o.Order_Id,
+        OrderNumber = o.Order_Number,
+        OrderDate = o.Order_Date,
+        CustomerName = o.Customer_Name,
+        Status = o.Status,
+        PaymentMode = o.Payment_Mode,
+        Rating = o.Rating,
+        TotalAmount = o.Total_Amount
+        }).ToList();
+        }
     }
 }

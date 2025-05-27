@@ -18,5 +18,6 @@ namespace Pizza_Shop_.Repositories
         public void AddTax(Tax_and_fee tax);
         public void UpdateTax(EditTaxViewModel model);
         public void SoftDeleteTaxes(int id);
+        public List<Order> GetAllOrders();
     }
 }

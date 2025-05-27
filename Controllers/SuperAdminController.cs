@@ -568,25 +568,51 @@ namespace Pizza_Shop_.Controllers
         [HttpPost]
         public IActionResult DeleteTax(int id)
         {
-        Console.WriteLine($"[DeleteTax] ModelState.IsValid: {ModelState.IsValid}");
+            Console.WriteLine($"[DeleteTax] ModelState.IsValid: {ModelState.IsValid}");
 
-        if (!ModelState.IsValid)
-        {
-        foreach (var key in ModelState.Keys)
-        {
-            var state = ModelState[key];
-            if (state != null && state.Errors.Count > 0)
+            if (!ModelState.IsValid)
             {
-                foreach (var error in state.Errors)
+                foreach (var key in ModelState.Keys)
                 {
-                    Console.WriteLine($"[ModelState Error] Field: {key}, Error: {error.ErrorMessage}");
+                    var state = ModelState[key];
+                    if (state != null && state.Errors.Count > 0)
+                    {
+                        foreach (var error in state.Errors)
+                        {
+                            Console.WriteLine($"[ModelState Error] Field: {key}, Error: {error.ErrorMessage}");
+                        }
+                    }
                 }
             }
+            Console.WriteLine($"[DeleteTax] Received ID: {id}");
+            _tableSectionService.SoftDeleteTaxes(id);
+            return RedirectToAction("TaxesandFees");
         }
+        public IActionResult Orders(string searchTerm, int page = 1)
+        {
+        int pageSize = 5;
+        var orders = _tableSectionService.GetAllOrders();
+        if (!string.IsNullOrEmpty(searchTerm))
+        {
+            searchTerm = searchTerm.ToLower();
+            orders = orders.Where(o =>
+                o.CustomerName.ToLower().Contains(searchTerm) ||
+                o.OrderNumber.ToLower().Contains(searchTerm) ||
+                o.Status.ToLower().Contains(searchTerm) ||
+                o.PaymentMode.ToLower().Contains(searchTerm)
+            ).ToList();
         }
-        Console.WriteLine($"[DeleteTax] Received ID: {id}");
-        _tableSectionService.SoftDeleteTaxes(id);
-        return RedirectToAction("TaxesandFees");
+        var paginatedOrders = orders
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize)
+            .ToList();
+        var viewModel = new PaginatedOrderListViewModel
+        {
+            Orders = paginatedOrders,
+            CurrentPage = page,
+            TotalItems = orders.Count
+        };
+        return View(viewModel);
         }
     }
 }

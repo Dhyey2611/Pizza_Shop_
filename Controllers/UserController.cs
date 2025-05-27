@@ -122,6 +122,7 @@ namespace Pizza_Shop_.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create(CreateUserViewModel model)
         {
+            Console.WriteLine("🔍 Inside Create POST method");
             if (!ModelState.IsValid)
             {
                 Console.WriteLine("❌ ModelState is invalid.");
@@ -129,6 +130,7 @@ namespace Pizza_Shop_.Controllers
                 return View(model);
             }
             Console.WriteLine($"📧 Checking if email already exists: {model.Email}");
+            Console.WriteLine($"✅ Received FirstName: {model.FirstName}, LastName: {model.LastName}");
             var existingUser = await _userService.GetUserByEmailAsync(model.Email);
             if (existingUser != null)
             {

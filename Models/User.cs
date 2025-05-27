@@ -8,7 +8,7 @@ namespace Pizza_Shop_.Models
         [Column("user_id")]
         public int user_id { get; set; }
 
-        [NotMapped]
+        [Column("name")]
         [Required(ErrorMessage = "Name is required")]
         public string name { get; set; } = string.Empty;
 
@@ -49,11 +49,11 @@ namespace Pizza_Shop_.Models
         [Column("Zipcode")]
         public string? zip_code { get; set; }
         [NotMapped]
-        public int country_id { get; set; }  // Add this
+        public int country_id { get; set; }  
         [NotMapped]
-        public int state_id { get; set; }    // Add this
+        public int state_id { get; set; }   
         [NotMapped]
-        public int city_id { get; set; }     // Add this
+        public int city_id { get; set; }    
         [Required]
         [Column("Username")]
         public string Username { get; set; } = string.Empty;
