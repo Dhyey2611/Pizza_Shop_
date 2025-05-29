@@ -1,0 +1,122 @@
+@model Pizza_Shop_.ViewModels.OrderInvoiceViewModel
+@{
+    ViewData["Title"] = "Order Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+
+<div class="container mt-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h2 class="fw-bold">Order-Details</h2>
+        <a asp-action="DownloadInvoice" asp-route-orderNumber="@Model.OrderNumber" class="btn btn-primary">
+            <i class="fa fa-file-pdf"></i> Export
+        </a>
+    </div>
+    <div class="text-center mb-4">
+        <a href="@Url.Action("Orders", "SuperAdmin")" class="btn btn-outline-secondary">
+            <i class="fa fa-arrow-left"></i> Back to Orders
+        </a>
+    </div>
+    <div class="card mb-3">
+        <div class="card-body d-flex justify-content-between align-items-center flex-wrap">
+            <div>
+                <h5 class="mb-2 fw-bold">Order Summary <span class="badge bg-info text-dark">InProgress</span></h5>
+                <p class="mb-0">Invoice No.: <strong>@Model.OrderNumber</strong></p>
+                <p class="mb-0">Placed on: @Model.OrderDate.ToString("dd-MM-yyyy HH:mm")</p>
+                <p class="mb-0">Modified on: @Model.OrderDate.AddMinutes(25).ToString("dd-MM-yyyy HH:mm")</p>
+                <p class="mb-0">Order Duration: -</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="row mb-3">
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header fw-bold">Customer Details</div>
+                <div class="card-body">
+                    <p class="mb-1">Name: @Model.CustomerName</p>
+                    <p class="mb-1">Phone: 9012345231</p>
+                    <p class="mb-0">Email: guest@domain.com</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-6">
+            <div class="card">
+                <div class="card-header fw-bold">Table Details</div>
+                <div class="card-body">
+                    <p class="mb-1">Table: @Model.TableName</p>
+                    <p class="mb-0">Section: @Model.Section</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="card mb-3">
+        <div class="card-header fw-bold">Order Items</div>
+        <div class="card-body">
+            <table class="table table-bordered table-sm align-middle">
+                <thead class="table-light">
+                    <tr>
+                        <th>Sr.No.</th>
+                        <th>Item</th>
+                        <th>Quantity</th>
+                        <th>Price</th>
+                        <th>Total Amount</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        int srNo = 1;
+                        foreach (var item in Model.InvoiceItems)
+                        {
+                            <tr>
+                                <td>@srNo</td>
+                                <td>
+                                    @item.ItemName <br />
+                                    <small class="text-muted">@item.ModifierName</small>
+                                </td>
+                                <td>@item.Quantity</td>
+                                <td>@item.UnitPrice.ToString("0.00")</td>
+                                <td>@item.TotalPrice.ToString("0.00")</td>
+                            </tr>
+                            srNo++;
+                        }
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="row justify-content-end">
+        <div class="col-md-5">
+            <table class="table table-bordered table-sm">
+                <tr>
+                    <th>Subtotal</th>
+                    <td class="text-end">@Model.SubTotal.ToString("0.00")</td>
+                </tr>
+                <tr>
+                    <th>CGST</th>
+                    <td class="text-end">@Model.CGST.ToString("0.00")</td>
+                </tr>
+                <tr>
+                    <th>SGST</th>
+                    <td class="text-end">@Model.SGST.ToString("0.00")</td>
+                </tr>
+                <tr>
+                    <th>GST</th>
+                    <td class="text-end">@Model.GST.ToString("0.00")</td>
+                </tr>
+                <tr>
+                    <th>Other</th>
+                    <td class="text-end">@Model.Other.ToString("0.00")</td>
+                </tr>
+                <tr class="table-primary">
+                    <th>Total Amount Due</th>
+                    <td class="text-end fw-bold">@Model.TotalAmountDue.ToString("0.00")</td>
+                </tr>
+            </table>
+        </div>
+    </div>
+</div>

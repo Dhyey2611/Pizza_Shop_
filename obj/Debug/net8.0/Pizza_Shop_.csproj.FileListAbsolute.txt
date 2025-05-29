@@ -553,3 +553,14 @@ C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\Pizza_Shop_.pdb
 C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\Pizza_Shop_.genruntimeconfig.cache
 C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\ref\Pizza_Shop_.dll
 C:\Users\BAPS\Downloads\Pizza_Shop_\obj\Debug\net8.0\Pizza_Shop_.sourcelink.json
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\ClosedXML.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\ClosedXML.Parser.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\DocumentFormat.OpenXml.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\DocumentFormat.OpenXml.Framework.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\ExcelNumberFormat.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\RBush.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\SixLabors.Fonts.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\System.IO.Packaging.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\BouncyCastle.Crypto.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\itextsharp.dll
+C:\Users\BAPS\Downloads\Pizza_Shop_\bin\Debug\net8.0\itextsharp.xmlworker.dll

@@ -113,5 +113,9 @@ namespace Pizza_Shop_.Repositories
         {
             return _context.Orders.ToList();
         }
+        public List<InvoiceDummyData> GetInvoiceItemsByOrderNumber(string orderNumber)
+        {
+        return _context.Invoice_Dummy_Data.Where(i => i.OrderNumber == orderNumber).ToList();
+        }
     }
 }

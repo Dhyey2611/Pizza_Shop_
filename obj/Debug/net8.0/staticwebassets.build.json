@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "iroD5dSFjHKvCshVsaHRYJUoGKop8wG0pvHiKp2fuWw=",
+  "Hash": "nf6HdhtYUaSmrPQv3oHh6SVx/0TlS3JOUB1AobCHLRk=",
   "Source": "Pizza_Shop_",
   "BasePath": "_content/Pizza_Shop_",
   "Mode": "Default",
@@ -832,6 +832,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Menu\\Modifiers\\Modifier.js"
+    },
+    {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Orders\\Excel.js",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "js/Orders/Excel.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Orders\\Excel.js"
     },
     {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\Add_Section_Dropdown.js",

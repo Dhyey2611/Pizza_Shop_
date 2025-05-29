@@ -26,6 +26,7 @@ namespace Pizza_Shop_.Data
         public DbSet<Section> Sections { get; set; }
         public DbSet<Tax_and_fee> Taxes_and_Fees { get; set; }
         public DbSet<Order> Orders { get; set; }
+        public DbSet<InvoiceDummyData> Invoice_Dummy_Data { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Table>()

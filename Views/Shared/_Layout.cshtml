@@ -4,7 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - Pizza_Shop_</title>
-
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
     @if (ViewData["IsDashboard"] as bool? == true)
     {
         <link rel="stylesheet" href="~/css/Dashboard/dashboard.css">
@@ -34,7 +34,7 @@
         </div>
     </div>
 
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    @* <script src="~/lib/jquery/dist/jquery.min.js"></script> *@
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 
     @if (ViewContext.RouteData.Values["Controller"]?.ToString() == "SuperAdmin" && ViewContext.RouteData.Values["action"]?.ToString() == "Dashboard")

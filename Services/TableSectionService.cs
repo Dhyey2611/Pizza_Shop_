@@ -83,18 +83,22 @@ namespace Pizza_Shop_.Services
         }
         public List<OrderListViewModel> GetAllOrders()
         {
-        var orders = _tableSectionRepository.GetAllOrders();
-        return orders.Select(o => new OrderListViewModel
+            var orders = _tableSectionRepository.GetAllOrders();
+            return orders.Select(o => new OrderListViewModel
+            {
+                OrderId = o.Order_Id,
+                OrderNumber = o.Order_Number,
+                OrderDate = o.Order_Date,
+                CustomerName = o.Customer_Name,
+                Status = o.Status,
+                PaymentMode = o.Payment_Mode,
+                Rating = o.Rating,
+                TotalAmount = o.Total_Amount
+            }).ToList();
+        }
+        public List<InvoiceDummyData> GetInvoiceItems(string orderNumber)
         {
-        OrderId = o.Order_Id,
-        OrderNumber = o.Order_Number,
-        OrderDate = o.Order_Date,
-        CustomerName = o.Customer_Name,
-        Status = o.Status,
-        PaymentMode = o.Payment_Mode,
-        Rating = o.Rating,
-        TotalAmount = o.Total_Amount
-        }).ToList();
+            return _tableSectionRepository.GetInvoiceItemsByOrderNumber(orderNumber);
         }
     }
 }

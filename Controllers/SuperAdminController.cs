@@ -3,7 +3,11 @@ using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Pizza_Shop_.ViewModels;
 using Pizza_Shop_.Models;
 using Pizza_Shop_.Services;
+using ClosedXML.Excel;
 using System.Text.RegularExpressions;
+using Pizza_Shop_.Services.Interfaces;
+using iTextSharp.text.pdf;
+using iTextSharp.tool.xml;
 namespace Pizza_Shop_.Controllers
 {
     public class SuperAdminController : Controller
@@ -11,11 +15,13 @@ namespace Pizza_Shop_.Controllers
         private readonly IMenuItemService _menuItemService;
         private readonly ICategoryService _categoryService;
         private readonly ITableSectionService _tableSectionService;
-        public SuperAdminController(IMenuItemService menuItemService, ICategoryService categoryService, ITableSectionService tableSectionService)
+        private readonly IViewRenderService _viewRenderService;
+        public SuperAdminController(IMenuItemService menuItemService, ICategoryService categoryService, ITableSectionService tableSectionService, IViewRenderService viewRenderService)
         {
             _menuItemService = menuItemService;
             _categoryService = categoryService;
             _tableSectionService = tableSectionService;
+            _viewRenderService = viewRenderService;
         }
 
         public IActionResult Dashboard()
@@ -364,15 +370,7 @@ namespace Pizza_Shop_.Controllers
             return Json(viewModel);
         }
 
-        // [HttpPost]
-        // public IActionResult EditSection(EditSectionViewModel model)
-        // {
-        //     if (ModelState.IsValid)
-        //     {
-        //         _tableSectionService.UpdateSection(model);
-        //     }
-        //     return RedirectToAction("TablesAndSections");
-        // }
+       
         [HttpPost]
         public IActionResult EditSection(EditSectionViewModel model)
         {
@@ -494,12 +492,7 @@ namespace Pizza_Shop_.Controllers
             var taxes = _tableSectionService.GetAllTaxes();
             return View(taxes);
         }
-        // [HttpPost]
-        // public IActionResult CreateTax(CreateTaxViewModel model)
-        // {
-        // _tableSectionService.CreateTax(model);
-        // return RedirectToAction("TaxesandFees");
-        // }
+
         [HttpPost]
         public IActionResult CreateTax(CreateTaxViewModel model)
         {
@@ -588,31 +581,161 @@ namespace Pizza_Shop_.Controllers
             _tableSectionService.SoftDeleteTaxes(id);
             return RedirectToAction("TaxesandFees");
         }
-        public IActionResult Orders(string searchTerm, int page = 1)
+        public IActionResult Orders(string searchTerm, string fromDate, string toDate, int page = 1)
         {
-        int pageSize = 5;
-        var orders = _tableSectionService.GetAllOrders();
-        if (!string.IsNullOrEmpty(searchTerm))
-        {
-            searchTerm = searchTerm.ToLower();
-            orders = orders.Where(o =>
-                o.CustomerName.ToLower().Contains(searchTerm) ||
-                o.OrderNumber.ToLower().Contains(searchTerm) ||
-                o.Status.ToLower().Contains(searchTerm) ||
-                o.PaymentMode.ToLower().Contains(searchTerm)
-            ).ToList();
+            int pageSize = 5;
+            var orders = _tableSectionService.GetAllOrders();
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                orders = orders.Where(o =>
+                    o.CustomerName.ToLower().Contains(searchTerm) ||
+                    o.OrderNumber.ToLower().Contains(searchTerm) ||
+                    o.Status.ToLower().Contains(searchTerm) ||
+                    o.PaymentMode.ToLower().Contains(searchTerm)
+                ).ToList();
+            }
+            if (DateTime.TryParseExact(fromDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var from))
+            {
+                orders = orders.Where(o => o.OrderDate >= from).ToList();
+            }
+            if (DateTime.TryParseExact(toDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var to))
+            {
+                orders = orders.Where(o => o.OrderDate <= to).ToList();
+            }
+            var paginatedOrders = orders
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToList();
+            var viewModel = new PaginatedOrderListViewModel
+            {
+                Orders = paginatedOrders,
+                CurrentPage = page,
+                TotalItems = orders.Count
+            };
+            return View(viewModel);
         }
-        var paginatedOrders = orders
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize)
-            .ToList();
-        var viewModel = new PaginatedOrderListViewModel
+        public IActionResult ExportToExcel(string status, string searchTerm, string fromDate, string toDate)
         {
-            Orders = paginatedOrders,
-            CurrentPage = page,
-            TotalItems = orders.Count
-        };
-        return View(viewModel);
+            // Parse date range
+            DateTime? from = DateTime.TryParseExact(fromDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var f) ? f : null;
+            DateTime? to = DateTime.TryParseExact(toDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var t) ? t : null;
+            // Get all orders
+            var orders = _tableSectionService.GetAllOrders();
+
+            // Apply filters
+            if (!string.IsNullOrEmpty(status) && status != "All Status")
+                orders = orders.Where(o => o.Status == status).ToList();
+
+            if (!string.IsNullOrEmpty(searchTerm))
+                orders = orders.Where(o => o.CustomerName.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)).ToList();
+
+            if (from.HasValue)
+                orders = orders.Where(o => o.OrderDate >= from.Value).ToList();
+
+            if (to.HasValue)
+                orders = orders.Where(o => o.OrderDate <= to.Value).ToList();
+
+            // Create Excel
+            using var workbook = new XLWorkbook();
+            var sheet = workbook.Worksheets.Add("Orders_Report");
+            // Write header
+            var row = 1;
+            sheet.Cell(row, 1).Value = "Order ID";
+            sheet.Cell(row, 2).Value = "Date";
+            sheet.Cell(row, 3).Value = "Customer";
+            sheet.Cell(row, 4).Value = "Status";
+            sheet.Cell(row, 5).Value = "Payment Mode";
+            sheet.Cell(row, 6).Value = "Rating";
+            sheet.Cell(row, 7).Value = "Total Amount";
+            sheet.Range(row, 1, row, 7).Style.Font.Bold = true;
+            // Write data
+            foreach (var o in orders)
+            {
+                row++;
+                sheet.Cell(row, 1).Value = o.OrderNumber;
+                sheet.Cell(row, 2).Value = o.OrderDate.ToString("dd-MM-yyyy");
+                sheet.Cell(row, 3).Value = o.CustomerName;
+                sheet.Cell(row, 4).Value = o.Status;
+                sheet.Cell(row, 5).Value = o.PaymentMode;
+                sheet.Cell(row, 6).Value = o.Rating;
+                sheet.Cell(row, 7).Value = o.TotalAmount;
+            }
+            sheet.Columns().AdjustToContents();
+            // Return file
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return File(stream.ToArray(),
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "Orders_Report.xlsx");
+        }
+
+        public async Task<IActionResult> DownloadInvoice(string orderNumber)
+        {
+            // Step 1: Get only the items from service (List<InvoiceDummyData>)
+            var items = _tableSectionService.GetInvoiceItems(orderNumber);
+            if (items == null || !items.Any())
+                return NotFound();
+
+            // Step 2: Manually wrap into OrderInvoiceViewModel
+            var model = new OrderInvoiceViewModel
+            {
+                OrderNumber = items.First().OrderNumber,
+                OrderDate = DateTime.Now, // Or load from DB later
+                CustomerName = "Demo User", // Static or from DB
+                PaymentMode = "Cash",       // Static or from DB
+                Section = "Ground Floor",   // Optional
+                TableName = "T1",           // Optional
+                InvoiceItems = items,
+                SubTotal = items.Sum(x => x.TotalPrice),
+                CGST = 10,
+                SGST = 10,
+                GST = 0,
+                Other = 0
+            };
+
+            // Step 3: Render Razor view
+            string htmlContent = await _viewRenderService.RenderToStringAsync("SuperAdmin/ExportPdf", model);
+
+            // Step 4: Convert to PDF using iTextSharp
+            using var stream = new MemoryStream();
+            var doc = new iTextSharp.text.Document();
+            var writer = PdfWriter.GetInstance(doc, stream);
+            doc.Open();
+            using (var stringReader = new StringReader(htmlContent))
+            {
+                XMLWorkerHelper.GetInstance().ParseXHtml(writer, doc, stringReader);
+            }
+            doc.Close();
+            // Step 5: Return the PDF file
+            byte[] bytes = stream.ToArray();
+            return File(bytes, "application/pdf", $"Invoice_{model.OrderNumber}.pdf");
+        }
+        
+        public IActionResult ViewInvoice(string orderNumber)
+        {
+            // Step 1: Get only the items
+            var items = _tableSectionService.GetInvoiceItems(orderNumber);
+            if (items == null || !items.Any())
+                return NotFound();
+            // Step 2: Wrap them into the full view model
+            var model = new OrderInvoiceViewModel
+            {
+                OrderNumber = items.First().OrderNumber,
+                OrderDate = DateTime.Now, // You can update this later
+                CustomerName = "Demo User",
+                PaymentMode = "Cash",
+                Section = "Ground Floor",
+                TableName = "T1",
+                InvoiceItems = items,
+                SubTotal = items.Sum(x => x.TotalPrice),
+                CGST = 10,
+                SGST = 10,
+                GST = 0,
+                Other = 0
+            };
+            // Step 3: Return the View
+            return View("ViewInvoice", model);
         }
     }
 }

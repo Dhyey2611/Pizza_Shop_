@@ -173,6 +173,10 @@
       "PackagePath": "staticwebassets\\js\\Menu\\Modifiers\\modal_search.js"
     },
     {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Orders\\Excel.js",
+      "PackagePath": "staticwebassets\\js\\Orders\\Excel.js"
+    },
+    {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Tables_And_Sections\\Add_Section_Dropdown.js",
       "PackagePath": "staticwebassets\\js\\Tables_And_Sections\\Add_Section_Dropdown.js"
     },

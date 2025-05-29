@@ -17,5 +17,6 @@ namespace Pizza_Shop_.Services
         public void UpdateTax(EditTaxViewModel model);
         public void SoftDeleteTaxes(int id);
         public List<OrderListViewModel> GetAllOrders();
+        List<InvoiceDummyData> GetInvoiceItems(string orderNumber);
     }
 }

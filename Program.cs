@@ -5,9 +5,10 @@ using Pizza_Shop_.Services;
 using Pizza_Shop_.Repositories;
 using Pizza_Shop_.Models;
 using Pizza.Shop_.Services;
+using Pizza_Shop_.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
-
+System.Text.Encoding.RegisterProvider(System.Text.CodePagesEncodingProvider.Instance);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
@@ -25,6 +26,8 @@ builder.Services.AddScoped<IPermissionRepository, PermissionRepository>();
 builder.Services.AddScoped<IPermissionService, PermissionService>();
 builder.Services.AddScoped<ITableSectionRepository, TableSectionRepository>();
 builder.Services.AddScoped<ITableSectionService, TableSectionService>();
+builder.Services.AddScoped<IViewRenderService, ViewRenderService>();
+
 // ✅ Add Authentication & Authorization Here
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(options =>

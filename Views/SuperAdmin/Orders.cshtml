@@ -1,114 +1,3 @@
-@* @using Pizza_Shop_.ViewModels
-@model PaginatedOrderListViewModel
-
-@{
-    ViewData["Title"] = "Orders";
-    Layout = "~/Views/Shared/_Layout.cshtml";
-}
-
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-<link rel="stylesheet" href="~/css/Orders/Order.css" />
-
-<div class="orders-container">
-    <!-- Header Row -->
-    <div class="d-flex justify-content-between align-items-center flex-wrap mb-2">
-        <h2 class="orders-title">Orders</h2>
-        <div class="d-flex align-items-center gap-2 flex-wrap">
-            <div class="search-bar position-relative">
-                <input type="text" class="form-control" placeholder="Search" />
-                <i class="fa fa-search search-icon"></i>
-            </div>
-            <select class="form-select">
-                <option>All Status</option>
-            </select>
-            <select class="form-select">
-                <option>All Time</option>
-            </select>
-            <button class="btn btn-export d-flex align-items-center gap-1">
-                <i class="fa fa-file-export"></i> Export
-            </button>
-        </div>
-    </div>
-
-    <!-- Filter Row -->
-    <div class="d-flex justify-content-end align-items-center gap-2 mb-3 flex-wrap">
-        <div class="form-floating">
-            <input type="date" class="form-control" id="fromDate" placeholder="From Date">
-            <label for="fromDate">From Date</label>
-        </div>
-        <div class="form-floating">
-            <input type="date" class="form-control" id="toDate" placeholder="To Date">
-            <label for="toDate">To Date</label>
-        </div>
-        <button class="btn btn-primary">Search</button>
-        <button class="btn btn-outline-secondary">Clear</button>
-    </div>
-
-    <!-- Table -->
-    <table class="table orders-table">
-        <thead>
-            <tr>
-                <th>#Order <i class="fa fa-sort ms-1"></i></th>
-                <th>Date <i class="fa fa-sort ms-1"></i></th>
-                <th>Customer <i class="fa fa-sort ms-1"></i></th>
-                <th>Status</th>
-                <th>Payment Mode</th>
-                <th>Rating</th>
-                <th>Total Amount<i class="fa fa-sort ms-1"></i></th>
-                <th>Action</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var order in Model.Orders)
-            {
-                <tr>
-                    <td>@order.OrderNumber</td>
-                    <td>@order.OrderDate.ToString("yyyy-MM-dd")</td>
-                    <td>@order.CustomerName</td>
-                    <td>@order.Status</td>
-                    <td>@order.PaymentMode</td>
-                    <td>
-                        @for (int i = 1; i <= 5; i++)
-                        {
-                            if (i <= order.Rating)
-                            {
-                                <span class="fa fa-star checked"></span>
-                            }
-                            else
-                            {
-                                <span class="fa fa-star"></span>
-                            }
-                        }
-                    </td>
-                    <td>@order.TotalAmount.ToString("0.00")</td>
-                    <td>
-                        <a href="#"><i class="fa fa-file-pdf"></i></a>
-                        <a href="#"><i class="fa fa-eye"></i></a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <!-- Pagination Row -->
-    <div class="pagination-row d-flex justify-content-end align-items-center mt-3 gap-2">
-        <label class="mb-0">Items Per page:</label>
-        <select class="form-select w-auto">
-            <option>5</option>
-            <option>10</option>
-            <option>25</option>
-        </select>
-        <span>Showing @((Model.CurrentPage - 1) * 5 + 1) – @(Math.Min(Model.CurrentPage * 5, Model.TotalItems)) of @Model.TotalItems</span>
-        @if (Model.CurrentPage > 1)
-        {
-            <a asp-action="Orders" asp-route-page="@(Model.CurrentPage - 1)" class="btn btn-light"><i class="fa fa-chevron-left"></i></a>
-        }
-        @if ((Model.CurrentPage * 5) < Model.TotalItems)
-        {
-            <a asp-action="Orders" asp-route-page="@(Model.CurrentPage + 1)" class="btn btn-light"><i class="fa fa-chevron-right"></i></a>
-        }
-    </div>
-</div> *@
 @using Pizza_Shop_.ViewModels
 @model PaginatedOrderListViewModel
 
@@ -121,8 +10,9 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
 <link rel="stylesheet" href="~/css/Orders/Order.css" />
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+@* <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script> *@
 <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+<script src="~/js/Orders/Excel.js"></script>
 <script>
     $(function () {
         $("#fromDate, #toDate").datepicker({
@@ -137,7 +27,7 @@
         <h2 class="orders-title">Orders</h2>
         <div class="d-flex align-items-center gap-2 flex-wrap">
             <div class="search-bar position-relative" style="width: 200px;">
-                <input type="text" class="form-control" placeholder="Search" />
+                <input type="text" name="searchTerm" class="form-control" placeholder="Search" value="@Context.Request.Query["searchTerm"]"/>
                 <i class="fa fa-search search-icon"></i>
             </div>
             <select class="form-select" style="width: 160px;">
@@ -146,26 +36,23 @@
             <select class="form-select" style="width: 160px;">
                 <option>All Time</option>
             </select>
-            <button class="btn btn-export d-flex align-items-center gap-1">
+            <button class="btn btn-export d-flex align-items-center gap-1" onclick="exportFilteredData()">
                 <i class="fa fa-file-export"></i> Export
             </button>
         </div>
     </div>
-
-    <!-- Second Row: Date Filters and Buttons -->
-    <div class="d-flex justify-content-end align-items-center gap-2 mb-3 flex-wrap">
-        <div class="form-floating" style="width: 180px;">
-            <input type="text" id="fromDate" class="form-control" placeholder="dd-mm-yyyy" />
-            <label for="fromDate">From Date</label>
-        </div>
-        <div class="form-floating" style="width: 180px;">
-            <input type="text" id="toDate" class="form-control" placeholder="dd-mm-yyyy" />
-            <label for="toDate">To Date</label>
-        </div>
-        <button class="btn btn-primary btn-lg">Search</button>
-        <button class="btn btn-outline-secondary btn-lg">Clear</button>
+    <form method="get" asp-controller="SuperAdmin" asp-action="Orders" class="d-flex justify-content-end align-items-center gap-2 mb-3 flex-wrap">
+    <div class="form-floating" style="width: 180px;">
+        <input type="text" id="fromDate" name="fromDate" class="form-control" placeholder="dd-mm-yyyy" value="@Context.Request.Query["fromDate"]" />
+        <label for="fromDate">From Date</label>
     </div>
-
+    <div class="form-floating" style="width: 180px;">
+        <input type="text" id="toDate" name="toDate" class="form-control" placeholder="dd-mm-yyyy" value="@Context.Request.Query["toDate"]" />
+        <label for="toDate">To Date</label>
+    </div>
+    <button type="submit" class="btn btn-primary btn-lg">Search</button>
+    <a href="@Url.Action("Orders", "SuperAdmin")" class="btn btn-outline-secondary btn-lg">Clear</a>
+    </form>
     <!-- Table -->
     <table class="table orders-table">
         <thead>
@@ -204,8 +91,15 @@
                     </td>
                     <td>@order.TotalAmount.ToString("0.00")</td>
                     <td>
-                        <a href="#"><i class="fa fa-file-pdf"></i></a>
-                        <a href="#"><i class="fa fa-eye"></i></a>
+                        @* <a href="#"><i class="fa fa-file-pdf"></i></a> *@
+                        @* <a href="#"><i class="fa fa-eye"></i></a> *@
+                        <a asp-controller="SuperAdmin" asp-action="DownloadInvoice" asp-route-orderNumber="@order.OrderNumber" target="_blank">
+                        <i class="fa fa-file-pdf"></i>
+                        </a>
+                        @* <a href="#"><i class="fa fa-eye"></i></a> *@
+                        <a  asp-controller="SuperAdmin" asp-action="ViewInvoice" asp-route-orderNumber="@order.OrderNumber">
+                        <i class="fa fa-eye text-primary"></i>
+                        </a>
                     </td>
                 </tr>
             }
