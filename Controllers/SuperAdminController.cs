@@ -370,7 +370,7 @@ namespace Pizza_Shop_.Controllers
             return Json(viewModel);
         }
 
-       
+
         [HttpPost]
         public IActionResult EditSection(EditSectionViewModel model)
         {
@@ -581,10 +581,15 @@ namespace Pizza_Shop_.Controllers
             _tableSectionService.SoftDeleteTaxes(id);
             return RedirectToAction("TaxesandFees");
         }
-        public IActionResult Orders(string searchTerm, string fromDate, string toDate, int page = 1)
+        public IActionResult Orders(string searchTerm, string fromDate, string toDate, string status, string sortBy, string sortOrder, int page = 1)
         {
+            Console.WriteLine("🔍 Received Status: " + status);
             int pageSize = 5;
             var orders = _tableSectionService.GetAllOrders();
+            if (!string.IsNullOrEmpty(status) && status != "All Status")
+            {
+                orders = orders.Where(o => o.Status.Equals(status, StringComparison.OrdinalIgnoreCase)).ToList();
+            }
             if (!string.IsNullOrEmpty(searchTerm))
             {
                 searchTerm = searchTerm.ToLower();
@@ -603,6 +608,16 @@ namespace Pizza_Shop_.Controllers
             {
                 orders = orders.Where(o => o.OrderDate <= to).ToList();
             }
+            sortBy = (sortBy ?? "").ToLower();
+            sortOrder = (sortOrder ?? "").ToLower();
+            orders = sortBy switch
+            {
+                "ordernumber" => sortOrder == "desc" ? orders.OrderByDescending(o => o.OrderNumber).ToList() : orders.OrderBy(o => o.OrderNumber).ToList(),
+                "orderdate" => sortOrder == "desc" ? orders.OrderByDescending(o => o.OrderDate).ToList() : orders.OrderBy(o => o.OrderDate).ToList(),
+                "customername" => sortOrder == "desc" ? orders.OrderByDescending(o => o.CustomerName).ToList() : orders.OrderBy(o => o.CustomerName).ToList(),
+                "totalamount" => sortOrder == "desc" ? orders.OrderByDescending(o => o.TotalAmount).ToList() : orders.OrderBy(o => o.TotalAmount).ToList(),
+                _ => orders
+            };
             var paginatedOrders = orders
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
@@ -711,7 +726,7 @@ namespace Pizza_Shop_.Controllers
             byte[] bytes = stream.ToArray();
             return File(bytes, "application/pdf", $"Invoice_{model.OrderNumber}.pdf");
         }
-        
+
         public IActionResult ViewInvoice(string orderNumber)
         {
             // Step 1: Get only the items
@@ -736,6 +751,94 @@ namespace Pizza_Shop_.Controllers
             };
             // Step 3: Return the View
             return View("ViewInvoice", model);
+        }
+        public IActionResult Customers(string searchTerm, string sortBy, string sortOrder, int page = 1)
+        {
+            var customers = _tableSectionService.GetAllCustomers();
+            // Filter by searchTerm
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                searchTerm = searchTerm.ToLower();
+                customers = customers.Where(c =>
+                    c.Name.ToLower().Contains(searchTerm) ||
+                    c.Email.ToLower().Contains(searchTerm) ||
+                    c.PhoneNumber.ToLower().Contains(searchTerm)
+                ).ToList();
+            }
+            // Sorting logic
+            sortBy = (sortBy ?? "").ToLower();
+            sortOrder = (sortOrder ?? "").ToLower();
+            customers = sortBy switch
+            {
+                "name" => sortOrder == "desc"
+                    ? customers.OrderByDescending(c => c.Name).ToList()
+                    : customers.OrderBy(c => c.Name).ToList(),
+
+                "createddate" => sortOrder == "desc"
+                    ? customers.OrderByDescending(c => c.CreatedDate).ToList()
+                    : customers.OrderBy(c => c.CreatedDate).ToList(),
+
+                "totalorders" => sortOrder == "desc"
+                    ? customers.OrderByDescending(c => c.TotalOrders).ToList()
+                    : customers.OrderBy(c => c.TotalOrders).ToList(),
+
+                _ => customers
+            };
+            int pageSize = 5;
+            var paginatedList = customers.Skip((page - 1) * pageSize).Take(pageSize).ToList();
+            var viewModel = new PaginatedCustomerListViewModel
+            {
+                Customers = paginatedList.Select(c => new CustomerListViewModel
+                {
+                    Name = c.Name,
+                    Email = c.Email,
+                    PhoneNumber = c.PhoneNumber,
+                    CreatedDate = c.CreatedDate,
+                    TotalOrders = c.TotalOrders
+                }).ToList(),
+                CurrentPage = page,
+                TotalItems = customers.Count
+            };
+            return View(viewModel);
+        }
+        public IActionResult ExportCustomersToExcel(string searchTerm)
+        {
+            var customers = _tableSectionService.GetAllCustomers();
+            if (!string.IsNullOrWhiteSpace(searchTerm))
+            {
+            searchTerm = searchTerm.ToLower();
+            customers = customers.Where(c =>
+            c.Name.ToLower().Contains(searchTerm) ||
+            c.Email.ToLower().Contains(searchTerm) ||
+            c.PhoneNumber.ToLower().Contains(searchTerm)
+            ).ToList();
+            }
+            using var workbook = new XLWorkbook();
+            var sheet = workbook.Worksheets.Add("Customers_Report");
+            // Header Row
+            var row = 1;
+            sheet.Cell(row, 1).Value = "Name";
+            sheet.Cell(row, 2).Value = "Email";
+            sheet.Cell(row, 3).Value = "Phone Number";
+            sheet.Cell(row, 4).Value = "Date";
+            sheet.Cell(row, 5).Value = "Total Orders";
+            sheet.Range(row, 1, row, 5).Style.Font.Bold = true;
+            // Data Rows
+            foreach (var c in customers)
+            {
+                row++;
+                sheet.Cell(row, 1).Value = c.Name;
+                sheet.Cell(row, 2).Value = c.Email;
+                sheet.Cell(row, 3).Value = c.PhoneNumber;
+                sheet.Cell(row, 4).Value = c.CreatedDate.ToString("dd-MM-yyyy");
+                sheet.Cell(row, 5).Value = c.TotalOrders;
+            }
+            sheet.Columns().AdjustToContents();
+            using var stream = new MemoryStream();
+            workbook.SaveAs(stream);
+            return File(stream.ToArray(),
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
+            "Customers_Report.xlsx");
         }
     }
 }

@@ -5,6 +5,10 @@
       "PackagePath": "staticwebassets\\css\\BlueNavbar.css"
     },
     {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\Customers\\Customer.css",
+      "PackagePath": "staticwebassets\\css\\Customers\\Customer.css"
+    },
+    {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\css\\Dashboard\\ChangePassword.css",
       "PackagePath": "staticwebassets\\css\\Dashboard\\ChangePassword.css"
     },
@@ -123,6 +127,10 @@
     {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Account\\myprofile.js",
       "PackagePath": "staticwebassets\\js\\Account\\myprofile.js"
+    },
+    {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Customer\\Customer.js",
+      "PackagePath": "staticwebassets\\js\\Customer\\Customer.js"
     },
     {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Dashboard\\dashboard.js",

@@ -33,6 +33,9 @@
         <a href="/SuperAdmin/Orders" class="menu-item @(currentController == "SuperAdmin" && currentAction == "Orders" ? "menu-item-blue" : "")">
         <i class="fas fa-check-square"></i> Orders
         </a>
-        <a href="#" class="menu-item"><i class="fas fa-id-card"></i> Customers</a>
+        @* <a href="#" class="menu-item"><i class="fas fa-id-card"></i> Customers</a> *@
+        <a href="/SuperAdmin/Customers" class="menu-item @(currentController == "SuperAdmin" && currentAction == "Customers" ? "menu-item-blue" : "")">
+        <i class="fas fa-id-card"></i> Customers
+        </a>
     </div>
 </aside>

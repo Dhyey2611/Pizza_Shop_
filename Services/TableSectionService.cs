@@ -100,5 +100,9 @@ namespace Pizza_Shop_.Services
         {
             return _tableSectionRepository.GetInvoiceItemsByOrderNumber(orderNumber);
         }
+        public List<Customer> GetAllCustomers()
+        {
+            return _tableSectionRepository.GetAllCustomers();
+        }
     }
 }

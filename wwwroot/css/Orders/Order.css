@@ -144,3 +144,8 @@ select.form-select {
     padding: 6px;
     font-size: 14px;
 }
+
+.orders-table thead th a {
+    color: inherit;         /* Inherit text color from parent (like normal text) */
+    text-decoration: none;  /* Remove underline */
+}

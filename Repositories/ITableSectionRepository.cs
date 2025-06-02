@@ -20,6 +20,7 @@ namespace Pizza_Shop_.Repositories
         public void SoftDeleteTaxes(int id);
         public List<Order> GetAllOrders();
         List<InvoiceDummyData> GetInvoiceItemsByOrderNumber(string orderNumber);
+        public List<Customer> GetAllCustomers();
 
     }
 }

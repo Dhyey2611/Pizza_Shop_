@@ -18,5 +18,6 @@ namespace Pizza_Shop_.Services
         public void SoftDeleteTaxes(int id);
         public List<OrderListViewModel> GetAllOrders();
         List<InvoiceDummyData> GetInvoiceItems(string orderNumber);
+        public List<Customer> GetAllCustomers();
     }
 }
