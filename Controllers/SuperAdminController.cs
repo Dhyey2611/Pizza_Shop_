@@ -752,8 +752,9 @@ namespace Pizza_Shop_.Controllers
             // Step 3: Return the View
             return View("ViewInvoice", model);
         }
-        public IActionResult Customers(string searchTerm, string sortBy, string sortOrder, int page = 1)
+        public IActionResult Customers(string searchTerm, string fromDate, string toDate, string sortBy, string sortOrder, int page = 1)
         {
+            Console.WriteLine($"[Customers] Received FromDate: {fromDate}, ToDate: {toDate}");
             var customers = _tableSectionService.GetAllCustomers();
             // Filter by searchTerm
             if (!string.IsNullOrEmpty(searchTerm))
@@ -764,6 +765,15 @@ namespace Pizza_Shop_.Controllers
                     c.Email.ToLower().Contains(searchTerm) ||
                     c.PhoneNumber.ToLower().Contains(searchTerm)
                 ).ToList();
+            }
+            //Date filter 
+            if (DateTime.TryParseExact(fromDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var from))
+            {
+                customers = customers.Where(c => c.CreatedDate >= from).ToList();
+            }
+            if (DateTime.TryParseExact(toDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var to))
+            {
+                customers = customers.Where(c => c.CreatedDate <= to).ToList();
             }
             // Sorting logic
             sortBy = (sortBy ?? "").ToLower();
@@ -790,6 +800,7 @@ namespace Pizza_Shop_.Controllers
             {
                 Customers = paginatedList.Select(c => new CustomerListViewModel
                 {
+                    CustomerId = c.CustomerId,
                     Name = c.Name,
                     Email = c.Email,
                     PhoneNumber = c.PhoneNumber,
@@ -801,17 +812,26 @@ namespace Pizza_Shop_.Controllers
             };
             return View(viewModel);
         }
-        public IActionResult ExportCustomersToExcel(string searchTerm)
+        public IActionResult ExportCustomersToExcel(string searchTerm, string fromDate, string toDate)
         {
+            Console.WriteLine($"[Export] Received FromDate: {fromDate}, ToDate: {toDate}");
             var customers = _tableSectionService.GetAllCustomers();
             if (!string.IsNullOrWhiteSpace(searchTerm))
             {
-            searchTerm = searchTerm.ToLower();
-            customers = customers.Where(c =>
-            c.Name.ToLower().Contains(searchTerm) ||
-            c.Email.ToLower().Contains(searchTerm) ||
-            c.PhoneNumber.ToLower().Contains(searchTerm)
-            ).ToList();
+                searchTerm = searchTerm.ToLower();
+                customers = customers.Where(c =>
+                c.Name.ToLower().Contains(searchTerm) ||
+                c.Email.ToLower().Contains(searchTerm) ||
+                c.PhoneNumber.ToLower().Contains(searchTerm)
+                ).ToList();
+            }
+            if (DateTime.TryParseExact(fromDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var from))
+            {
+                customers = customers.Where(c => c.CreatedDate >= from).ToList();
+            }
+            if (DateTime.TryParseExact(toDate, "dd-MM-yyyy", null, System.Globalization.DateTimeStyles.None, out var to))
+            {
+                customers = customers.Where(c => c.CreatedDate <= to).ToList();
             }
             using var workbook = new XLWorkbook();
             var sheet = workbook.Worksheets.Add("Customers_Report");
@@ -839,6 +859,15 @@ namespace Pizza_Shop_.Controllers
             return File(stream.ToArray(),
             "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet",
             "Customers_Report.xlsx");
+        }
+        [HttpGet]
+        public IActionResult GetCustomerHistory(int customerId)
+        {
+        Console.WriteLine("Received customerId: " + customerId); 
+        var result = _tableSectionService.GetCustomerHistoryById(customerId);
+        if (result == null)
+        return NotFound();
+        return Json(result);
         }
     }
 }

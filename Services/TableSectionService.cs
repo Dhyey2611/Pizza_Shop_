@@ -104,5 +104,28 @@ namespace Pizza_Shop_.Services
         {
             return _tableSectionRepository.GetAllCustomers();
         }
+        public CustomerHistoryViewModel? GetCustomerHistoryById(int customerId)
+        {
+        var customer = _tableSectionRepository.GetCustomerWithHistory(customerId);
+        if (customer == null) return null;
+        var historyList = customer.CustomerHistory.OrderBy(h => h.OrderDate).ToList();
+        return new CustomerHistoryViewModel
+        {
+        Name = customer.Name,
+        MobileNumber = customer.PhoneNumber,
+        ComingSince = historyList.FirstOrDefault()?.OrderDate ?? DateTime.MinValue,
+        Visits = historyList.Count,
+        AverageBill = historyList.Any() ? Math.Round(historyList.Average(h => h.Amount), 2) : 0,
+        MaxOrder = historyList.Any() ? historyList.Max(h => h.Amount) : 0,
+        OrderHistory = historyList.Select(h => new CustomerHistoryRowViewModel
+        {
+            OrderDate = h.OrderDate,
+            OrderType = h.OrderType,
+            PaymentStatus = h.PaymentStatus,
+            ItemsCount = h.ItemsCount,
+            Amount = h.Amount
+        }).ToList()
+        };
+        }
     }
 }

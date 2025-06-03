@@ -24,5 +24,6 @@ namespace Pizza_Shop_.Models
 
         [Column("total_orders")]
         public int TotalOrders { get; set; }
+        public virtual ICollection<CustomerHistory> CustomerHistory { get; set; } = new List<CustomerHistory>();
     }
 }

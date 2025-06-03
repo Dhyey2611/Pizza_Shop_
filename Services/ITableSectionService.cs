@@ -19,5 +19,6 @@ namespace Pizza_Shop_.Services
         public List<OrderListViewModel> GetAllOrders();
         List<InvoiceDummyData> GetInvoiceItems(string orderNumber);
         public List<Customer> GetAllCustomers();
+        public CustomerHistoryViewModel? GetCustomerHistoryById(int customerId);
     }
 }

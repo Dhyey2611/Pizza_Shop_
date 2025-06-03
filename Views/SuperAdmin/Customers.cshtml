@@ -1,112 +1,215 @@
-@using Pizza_Shop_.ViewModels
-@model PaginatedCustomerListViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Customers</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/Customers/Customer.css" />
+    <link rel="stylesheet" href="https://code.jquery.com/ui/1.13.2/themes/base/jquery-ui.css" />
+</head>
+<body>
+    @using Pizza_Shop_.ViewModels
+    @model PaginatedCustomerListViewModel
 
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" />
-<link rel="stylesheet" href="~/css/Customers/Customer.css" />
-<script src="~/js/Customer/Customer.js"></script>
-<div class="customers-container">
-    <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
-        <h2 class="customers-title">Customers</h2>
-
-        @* <div class="d-flex align-items-center gap-2">
-            <div class="search-bar position-relative">
-                <input type="text" name="searchTerm" class="form-control" placeholder="Search" />
-                <i class="fa fa-search search-icon"></i>
-            </div>
-
-            <select class="form-select" style="width: 160px;">
-                <option>All Time</option>
-            </select>
-
-            <button type="button" class="btn btn-export d-flex align-items-center gap-1">
-                <i class="fa fa-file-export"></i> Export
-            </button>
-        </div> *@
-        @* <div class="d-flex align-items-center gap-2">
-            <form method="get" asp-controller="SuperAdmin" asp-action="Customers" class="m-0">
-                <div class="search-bar position-relative">
-                    <input type="text" name="searchTerm" class="form-control" placeholder="Search" value="@Context.Request.Query["searchTerm"]" />
-                    <i class="fa fa-search search-icon"></i>
-                </div>
-                <select class="form-select" style="width: 160px;">
-                    <option>All Time</option>
-                </select>
-            </form>
+    <script src="~/js/Customer/Customer.js"></script>
+    <script src="~/js/Customer/CustomerHistory.js"></script>
+    <div class="customers-container">
+        <div class="d-flex justify-content-between align-items-center mb-3 flex-wrap">
+            <h2 class="customers-title">Customers</h2>
+            <div class="d-flex align-items-center gap-2">
+                <form method="get" asp-controller="SuperAdmin" asp-action="Customers" class="d-flex align-items-center gap-2 m-0">
+                    <div class="search-bar position-relative">
+                        <input type="text" name="searchTerm" class="form-control" placeholder="Search" value="@Context.Request.Query["searchTerm"]" />
+                        <i class="fa fa-search search-icon"></i>
+                    </div>
+                    <select id="dateFilter" class="form-select" style="width: 160px;" onchange="handleDateFilterChange(this.value)">
+                        <option value="all">All Time</option>
+                        <option value="custom">Custom Date</option>
+                    </select>
+                    <input type="hidden" name="fromDate" id="fromDateHidden" value="@Context.Request.Query["fromDate"]" />
+                    <input type="hidden" name="toDate" id="toDateHidden" value="@Context.Request.Query["toDate"]" />
+                </form>
                 <button type="button" onclick="exportCustomerData()" class="btn btn-export d-flex align-items-center gap-1">
                     <i class="fa fa-file-export"></i> Export
                 </button>
-        </div> *@
-        <div class="d-flex align-items-center gap-2">
-            <form method="get" asp-controller="SuperAdmin" asp-action="Customers" class="d-flex align-items-center gap-2 m-0">
-                <div class="search-bar position-relative">
-                    <input type="text" name="searchTerm" class="form-control" placeholder="Search" value="@Context.Request.Query["searchTerm"]" />
-                    <i class="fa fa-search search-icon"></i>
-                </div>
-                <select class="form-select" style="width: 160px;">
-                    <option>All Time</option>
-                </select>
-            </form>
-            <!-- Export button stays outside form but still in same line -->
-            <button type="button" onclick="exportCustomerData()" class="btn btn-export d-flex align-items-center gap-1">
-                <i class="fa fa-file-export"></i> Export
-            </button>
+            </div>
+        </div>
+
+        <table class="table customers-table">
+            <thead>
+                <tr>
+                    <th>
+                        <a href="?sortBy=name&sortOrder=@(Context.Request.Query["sortOrder"] == "asc" ? "desc" : "asc")">
+                            Name <i class="fa fa-sort ms-1"></i>
+                        </a>
+                    </th>
+                    <th>Email</th>
+                    <th>Phone Number</th>
+                    <th>
+                        <a href="?sortBy=createdDate&sortOrder=@(Context.Request.Query["sortOrder"] == "asc" ? "desc" : "asc")">
+                            Date <i class="fa fa-sort ms-1"></i>
+                        </a>
+                    </th>
+                    <th>
+                        <a href="?sortBy=totalOrders&sortOrder=@(Context.Request.Query["sortOrder"] == "asc" ? "desc" : "asc")">
+                            Total Order <i class="fa fa-sort ms-1"></i>
+                        </a>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var c in Model.Customers)
+                {
+                    <tr onclick="loadCustomerHistory(@c.CustomerId)">
+                        <td>@c.Name</td>
+                        <td>@c.Email</td>
+                        <td>@c.PhoneNumber</td>
+                        <td>@c.CreatedDate.ToString("dd-MM-yyyy")</td>
+                        <td>@c.TotalOrders</td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+
+        <div class="pagination-row d-flex justify-content-end align-items-center mt-3 gap-2">
+            <label class="mb-0">Items Per page:</label>
+            <select class="form-select w-auto">
+                <option>5</option>
+                <option>10</option>
+                <option>25</option>
+            </select>
+            <span>Showing @((Model.CurrentPage - 1) * 5 + 1) – @(Math.Min(Model.CurrentPage * 5, Model.TotalItems)) of @Model.TotalItems</span>
+            @if (Model.CurrentPage > 1)
+            {
+                <a asp-action="Customers" asp-route-page="@(Model.CurrentPage - 1)" class="btn btn-light"><i class="fa fa-chevron-left"></i></a>
+            }
+            @if ((Model.CurrentPage * 5) < Model.TotalItems)
+            {
+                <a asp-action="Customers" asp-route-page="@(Model.CurrentPage + 1)" class="btn btn-light"><i class="fa fa-chevron-right"></i></a>
+            }
         </div>
     </div>
 
-    <table class="table customers-table">
-        <thead>
-            <tr>
-                @* <th>Name <i class="fa fa-sort ms-1"></i></th> *@
-                <th>
-                    <a href="?sortBy=name&sortOrder=@(Context.Request.Query["sortOrder"] == "asc" ? "desc" : "asc")">
-                        Name <i class="fa fa-sort ms-1"></i>
-                    </a>
-                </th>
-                <th>Email</th>
-                <th>Phone Number</th>
-                @* <th>Date <i class="fa fa-sort ms-1"></i></th> *@
-                <th>
-                    <a href="?sortBy=createdDate&sortOrder=@(Context.Request.Query["sortOrder"] == "asc" ? "desc" : "asc")">
-                        Date <i class="fa fa-sort ms-1"></i>
-                    </a>
-                </th>
-                @* <th>Total Order <i class="fa fa-sort ms-1"></i></th> *@
-                <th>
-                    <a href="?sortBy=totalOrders&sortOrder=@(Context.Request.Query["sortOrder"] == "asc" ? "desc" : "asc")">
-                        Total Order <i class="fa fa-sort ms-1"></i>
-                    </a>
-            </th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var c in Model.Customers)
-            {
-                <tr>
-                    <td>@c.Name</td>
-                    <td>@c.Email</td>
-                    <td>@c.PhoneNumber</td>
-                    <td>@c.CreatedDate.ToString("dd-MM-yyyy")</td>
-                    <td>@c.TotalOrders</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <div class="pagination-row d-flex justify-content-end align-items-center mt-3 gap-2">
-        <label class="mb-0">Items Per page:</label>
-        <select class="form-select w-auto">
-            <option>5</option>
-            <option>10</option>
-            <option>25</option>
-        </select>
-        <span>Showing @((Model.CurrentPage - 1) * 5 + 1) – @(Math.Min(Model.CurrentPage * 5, Model.TotalItems)) of @Model.TotalItems</span>
-        @if (Model.CurrentPage > 1)
-        {
-            <a asp-action="Customers" asp-route-page="@(Model.CurrentPage - 1)" class="btn btn-light"><i class="fa fa-chevron-left"></i></a>
-        }
-        @if ((Model.CurrentPage * 5) < Model.TotalItems)
-        {
-            <a asp-action="Customers" asp-route-page="@(Model.CurrentPage + 1)" class="btn btn-light"><i class="fa fa-chevron-right"></i></a>
-        }
+    <div class="modal fade" id="customDateModal" tabindex="-1" aria-labelledby="customDateLabel" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered">
+            <div class="modal-content p-3">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="customDateLabel">Select Date Range</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <form method="get" asp-controller="SuperAdmin" asp-action="Customers">
+                    <div class="modal-body">
+                        <div class="mb-3">
+                            <label>Start Date</label>
+                            <input type="text" name="fromDate" id="fromDate" class="form-control" placeholder="dd-mm-yyyy" />
+                        </div>
+                        <div class="mb-3">
+                            <label>End Date</label>s
+                            <input type="text" name="toDate" id="toDate" class="form-control" placeholder="dd-mm-yyyy" />
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
-</div>
+    @*Customer History Model*@
+    <!-- Customer History Modal -->
+    <div class="modal fade" id="customerHistoryModal" tabindex="-1" aria-labelledby="customerHistoryLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-centered modal-dialog-scrollable">
+        <div class="modal-content p-3">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerHistoryLabel">Customer History</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+
+            <!-- Hidden fields -->
+            <input type="hidden" id="hiddenName" />
+            <input type="hidden" id="hiddenMobile" />
+            <input type="hidden" id="hiddenComingSince" />
+            <input type="hidden" id="hiddenVisits" />
+            <input type="hidden" id="hiddenAverageBill" />
+            <input type="hidden" id="hiddenMaxOrder" />
+
+            <div class="modal-body">
+                @* <div class="row mb-3">
+                    <div class="col"><label>Name:</label> <span id="viewName"></span></div>
+                    <div class="col"><label>Mobile Number:</label> <span id="viewMobile"></span></div>
+                    <div class="col"><label>Average Bill:</label> ₹<span id="viewAverageBill"></span></div>
+                    <div class="col"><label>Coming Since:</label> <span id="viewComingSince"></span></div>
+                    <div class="col"><label>Visits:</label> <span id="viewVisits"></span></div>
+                    <div class="col"><label>Max Order:</label> ₹<span id="viewMaxOrder"></span></div>
+                </div> *@
+                <!-- Row 1: Name & Avg Bill -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label>Name:</label> <div><b id="viewName"></b></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Average Bill:</label> <div><b>₹<span id="viewAverageBill"></span></b></div>
+                    </div>
+                </div>
+
+                <!-- Row 2: Mobile Number & Coming Since -->
+                <div class="row mb-2">
+                    <div class="col-md-6">
+                        <label>Mobile Number:</label> <div><b id="viewMobile"></b></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Coming Since:</label> <div><b id="viewComingSince"></b></div>
+                    </div>
+                </div>
+
+                <!-- Row 3: Max Order & Visits -->
+                <div class="row mb-4">
+                    <div class="col-md-6">
+                        <label>Max Order:</label> <div><b>₹<span id="viewMaxOrder"></span></b></div>
+                    </div>
+                    <div class="col-md-6">
+                        <label>Visits:</label> <div><b id="viewVisits"></b></div>
+                    </div>
+                </div>
+                <table class="table table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Order Date</th>
+                            <th>Order Type</th>
+                            <th>Payment</th>
+                            <th>Items</th>
+                            <th>Amount</th>
+                        </tr>
+                    </thead>
+                    <tbody id="customerHistoryTableBody"></tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Scripts for jQuery Datepicker -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.13.2/jquery-ui.min.js"></script>
+    <script>
+        $(function () {
+            $("#fromDate, #toDate").datepicker({
+                dateFormat: "dd-mm-yy"
+            });
+        });
+
+        function handleDateFilterChange(value) {
+            if (value === "custom") {
+                $('#customDateModal').modal('show');
+            }else if (value === "all") {
+            const url = new URL(window.location.href);
+            url.searchParams.delete("fromDate");
+            url.searchParams.delete("toDate");
+            url.searchParams.set("page", 1); 
+            window.location.href = url.toString();
+            }
+        }
+    </script>
+</body>
+</html>

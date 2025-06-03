@@ -21,6 +21,6 @@ namespace Pizza_Shop_.Repositories
         public List<Order> GetAllOrders();
         List<InvoiceDummyData> GetInvoiceItemsByOrderNumber(string orderNumber);
         public List<Customer> GetAllCustomers();
-
+        Customer GetCustomerWithHistory(int customerId);
     }
 }

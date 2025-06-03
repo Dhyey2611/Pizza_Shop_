@@ -1,6 +1,6 @@
 {
   "Version": 1,
-  "Hash": "KSLLF9o4vYKuyyXG1ILzKC/LHduRaGSDClg4D3etiAA=",
+  "Hash": "y7RS32RZw/pzuAdLLkqV9RkU3lwblGwqtd3FWGkhvFA=",
   "Source": "Pizza_Shop_",
   "BasePath": "_content/Pizza_Shop_",
   "Mode": "Default",
@@ -642,6 +642,25 @@
       "CopyToOutputDirectory": "Never",
       "CopyToPublishDirectory": "PreserveNewest",
       "OriginalItemSpec": "wwwroot\\js\\Customer\\Customer.js"
+    },
+    {
+      "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Customer\\CustomerHistory.js",
+      "SourceId": "Pizza_Shop_",
+      "SourceType": "Discovered",
+      "ContentRoot": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\",
+      "BasePath": "_content/Pizza_Shop_",
+      "RelativePath": "js/Customer/CustomerHistory.js",
+      "AssetKind": "All",
+      "AssetMode": "All",
+      "AssetRole": "Primary",
+      "AssetMergeBehavior": "PreferTarget",
+      "AssetMergeSource": "",
+      "RelatedAsset": "",
+      "AssetTraitName": "",
+      "AssetTraitValue": "",
+      "CopyToOutputDirectory": "Never",
+      "CopyToPublishDirectory": "PreserveNewest",
+      "OriginalItemSpec": "wwwroot\\js\\Customer\\CustomerHistory.js"
     },
     {
       "Identity": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Dashboard\\dashboard.js",

@@ -133,6 +133,10 @@
       "PackagePath": "staticwebassets\\js\\Customer\\Customer.js"
     },
     {
+      "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Customer\\CustomerHistory.js",
+      "PackagePath": "staticwebassets\\js\\Customer\\CustomerHistory.js"
+    },
+    {
       "Id": "C:\\Users\\BAPS\\Downloads\\Pizza_Shop_\\wwwroot\\js\\Dashboard\\dashboard.js",
       "PackagePath": "staticwebassets\\js\\Dashboard\\dashboard.js"
     },

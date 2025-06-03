@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 using Pizza_Shop_.Data;
 using Pizza_Shop_.Models;
@@ -119,7 +120,11 @@ namespace Pizza_Shop_.Repositories
         }
         public List<Customer> GetAllCustomers()
         {
-        return _context.Customers.ToList();
+            return _context.Customers.ToList();
+        }
+        public Customer GetCustomerWithHistory(int customerId)
+        {
+        return _context.Customers.Include(c => c.CustomerHistory).FirstOrDefault(c => c.CustomerId == customerId);
         }
     }
 }
